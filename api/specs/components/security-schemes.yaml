@@ -1,0 +1,12 @@
+securitySchemes:
+  OperationBased:
+    type: oauth2
+    description: Trello Clone OAuth2 인증 시스템
+    flows:
+      authorizationCode:
+        authorizationUrl: https://api.trelloclone.com/v1/oauth2/authorize
+        tokenUrl: https://api.trelloclone.com/v1/oauth2/token
+        refreshUrl: https://api.trelloclone.com/v1/oauth2/refresh
+        scopes:
+          read_trello: 읽기 권한
+          write_trello: 쓰기 권한

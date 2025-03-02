@@ -1,0 +1,324 @@
+schemas:
+  Account:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/AccountId'
+      username:
+        type: string
+      email:
+        type: string
+        format: email
+      fullName:
+        type: string
+      profileImage:
+        type: string
+        format: uri
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+
+  Workspace:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/WorkspaceId'
+      name:
+        type: string
+      description:
+        type: string
+      ownerId:
+        type: string
+        format: uuid
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  WorkspaceMember:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/AccountId'
+      workspaceId:
+        type: string
+        format: uuid
+      accountId:
+        type: string
+        format: uuid
+      role:
+        type: string
+        enum: [ADMIN, MEMBER, VIEWER]
+      joinedAt:
+        type: string
+        format: date-time
+        
+  Board:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/BoardId'
+      workspaceId:
+        type: string
+        format: uuid
+      name:
+        type: string
+      description:
+        type: string
+      background:
+        type: string
+      isPublic:
+        type: boolean
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  List:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/ListId'
+      boardId:
+        type: string
+        format: uuid
+      name:
+        type: string
+      position:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  Card:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/CardId'
+      listId:
+        type: string
+        format: uuid
+      title:
+        type: string
+      description:
+        type: string
+      position:
+        type: integer
+      dueDate:
+        type: string
+        format: date-time
+      coverImage:
+        type: string
+        format: uri
+      isArchived:
+        type: boolean
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  Label:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/LabelId'
+      boardId:
+        type: string
+        format: uuid
+      name:
+        type: string
+      color:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  Attachment:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/AttachmentId'
+      cardId:
+        $ref: './schemas.yaml#/schemas/CardId'
+      name:
+        type: string
+      url:
+        type: string
+        format: uri
+      fileType:
+        type: string
+      size:
+        type: integer
+      uploadedAt:
+        type: string
+        format: date-time
+        
+  Comment:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/CommentId'
+      cardId:
+        $ref: './schemas.yaml#/schemas/CardId'
+      accountId:
+        $ref: './schemas.yaml#/schemas/AccountId'
+      content:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  Checklist:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/ChecklistId'
+      cardId:
+        $ref: './schemas.yaml#/schemas/CardId'
+      title:
+        type: string
+      position:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+        
+  ChecklistItem:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/ChecklistItemId'
+      checklistId:
+        $ref: './schemas.yaml#/schemas/ChecklistId'
+      content:
+        type: string
+      isCompleted:
+        type: boolean
+      position:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+  
+  WorkspaceInvitation:
+    type: object
+    properties:
+      id:
+        $ref: './schemas.yaml#/schemas/WorkspaceId'
+      workspaceId:
+        $ref: './schemas.yaml#/schemas/WorkspaceId'
+      email:
+        type: string
+        format: email
+      role:
+        type: string
+        enum: [ADMIN, MEMBER, VIEWER]
+      status:
+        type: string
+        enum: [PENDING, ACCEPTED, DECLINED, EXPIRED]
+      invitedBy:
+        type: string
+        format: uuid
+      createdAt:
+        type: string
+        format: date-time
+      expiresAt:
+        type: string
+        format: date-time
+
+  AccountId:
+    type: string
+    format: uuid
+
+  WorkspaceId:
+    type: string
+    format: uuid
+
+  BoardId:
+    type: string
+    format: uuid
+
+  ListId:
+    type: string
+    format: uuid
+
+  CardId:
+    type: string
+    format: uuid
+
+  LabelId:
+    type: string
+    format: uuid
+  AttachmentId:
+    type: string
+    format: uuid
+
+  CommentId:
+    type: string
+    format: uuid
+
+  ChecklistId:
+    type: string
+    format: uuid
+    
+  ChecklistItemId:
+    type: string
+    format: uuid
+  
+  TokenResponse:
+    type: object
+    properties:
+      access_token:
+        type: string
+        description: OAuth2 액세스 토큰
+      token_type:
+        type: string
+        enum: [bearer]
+        description: 토큰 타입
+      expires_in:
+        type: integer
+        description: 토큰 만료 시간(초)
+      refresh_token:
+        type: string
+        description: 리프레시 토큰
+      scope:
+        type: string
+        description: 허용된 스코프
+        
+  ErrorResponse:
+    type: object
+    properties:
+      error:
+        type: string
+        description: 에러 코드
+      error_description:
+        type: string
+        description: 에러 상세 설명
+      error_uri:
+        type: string
+        format: uri
+        description: 에러 관련 문서 URI
