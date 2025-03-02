@@ -33,6 +33,13 @@ responses:
       application/json:
         schema:
           $ref: './schemas.yaml#/schemas/ErrorResponse'
+  
+  Error422:
+    description: 유효하지 않은 값
+    content:
+      application/json:
+        schema:
+          $ref: './schemas.yaml#/schemas/ValidationErrorResponse'
           
   Error429:
     description: 요청이 너무 많음

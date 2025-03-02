@@ -284,7 +284,7 @@ schemas:
   ChecklistId:
     type: string
     format: uuid
-    
+
   ChecklistItemId:
     type: string
     format: uuid
@@ -312,13 +312,34 @@ schemas:
   ErrorResponse:
     type: object
     properties:
-      error:
+      code:
         type: string
         description: 에러 코드
-      error_description:
+      message:
         type: string
         description: 에러 상세 설명
-      error_uri:
+
+  ValidationErrorResponse:
+    type: object
+    properties:
+      code:
         type: string
-        format: uri
-        description: 에러 관련 문서 URI
+        description: 에러 코드
+      message:
+        type: string
+        description: 에러 상세 설명
+      errors:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required:
+            - field
+            - message
+          properties:
+            field:
+              type: string
+              description: 에러가 발생한 필드
+            message:
+              type: string
+              description: 에러 메시지
