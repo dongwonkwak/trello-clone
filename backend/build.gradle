@@ -1,0 +1,58 @@
+plugins {
+    alias(libs.plugins.versionUpdate)
+    alias(libs.plugins.catalogUpdate)
+    alias(libs.plugins.openapiGenerator)
+
+	id 'java'
+	alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+}
+
+group = 'com.trelloclone'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.javaVersion.get())
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation(libs.bundles.spring.boot.libraries)
+
+    implementation(libs.bundles.common.libraries)
+
+    // lombok
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    // mapstruct
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+    testAnnotationProcessor(libs.mapstruct.processor)
+
+    runtimeOnly(libs.h2database)
+    implementation(libs.postgres)
+
+    testImplementation(libs.spring.boot.starter.test)
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.version)
+    }
+}
