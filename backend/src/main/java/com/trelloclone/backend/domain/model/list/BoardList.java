@@ -2,6 +2,7 @@ package com.trelloclone.backend.domain.model.list;
 
 import com.trelloclone.backend.domain.model.board.BoardId;
 import com.trelloclone.backend.domain.model.card.Card;
+import com.trelloclone.backend.domain.model.common.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,13 +12,11 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public class BoardList {
+public class BoardList extends BaseEntity {
     private final ListId id;
     private final BoardId boardId;
     private String name;
     private int position;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private final List<Card> cards;
 
     private BoardList(
@@ -27,12 +26,12 @@ public class BoardList {
             int position,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.boardId = requireNonNull(boardId);
         this.name = requireNonNull(name);
         this.position = position;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
         this.cards = new ArrayList<>();
     }
 
@@ -50,12 +49,12 @@ public class BoardList {
 
     public void update(String name) {
         this.name = requireNonNull(name);
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void updatePosition(int position) {
         this.position = position;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addCard(Card card) {
@@ -92,14 +91,6 @@ public class BoardList {
 
     public int getPosition() {
         return position;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<Card> getCards() {

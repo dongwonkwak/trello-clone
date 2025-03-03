@@ -1,18 +1,20 @@
 package com.trelloclone.backend.domain.model.account;
 
+import com.trelloclone.backend.domain.model.common.BaseEntity;
+
 import java.time.LocalDateTime;
 
 import static java.util.Objects.requireNonNull;
 
-public class Account {
+public class Account extends BaseEntity {
     private final AccountId id;
     private String username;
     private String email;
     private String fullName;
     private String profileImageUrl;
     private boolean emailVerified;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    //private final LocalDateTime createdAt;
+    //private LocalDateTime updatedAt;
 
     private Account(
             AccountId id,
@@ -22,14 +24,14 @@ public class Account {
             String profileImageUrl,
             boolean emailVerified,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.username = requireNonNull(username);
         this.email = requireNonNull(email);
         this.fullName = fullName;
         this.profileImageUrl = profileImageUrl;
         this.emailVerified = emailVerified;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
     }
 
     public static Account create(
@@ -52,12 +54,12 @@ public class Account {
     public void updateProfile(String fullName, String profileImageUrl) {
         this.fullName = fullName;
         this.profileImageUrl = profileImageUrl;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void verifyEmail() {
         this.emailVerified = true;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public boolean isEmailVerified() {
@@ -82,13 +84,5 @@ public class Account {
 
     public String getProfileImageUrl() {
         return profileImageUrl;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 }

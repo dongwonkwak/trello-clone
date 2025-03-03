@@ -1,5 +1,7 @@
 package com.trelloclone.backend.domain.model.card;
 
+import com.trelloclone.backend.domain.model.common.BaseEntity;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,14 +10,12 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public class Checklist {
+public class Checklist extends BaseEntity {
 
     private final ChecklistId id;
     private final CardId cardId;
     private String title;
     private int position;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private final List<ChecklistItem> items;
 
     private Checklist(
@@ -25,12 +25,12 @@ public class Checklist {
             int position,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.cardId = requireNonNull(cardId);
         this.title = requireNonNull(title);
         this.position = position;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
         this.items = new ArrayList<>();
     }
 
@@ -49,7 +49,7 @@ public class Checklist {
     public void update(String title, int position) {
         this.title = requireNonNull(title);
         this.position = position;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addItem(ChecklistItem item) {
@@ -91,14 +91,6 @@ public class Checklist {
 
     public int getPosition() {
         return position;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<ChecklistItem> getItems() {

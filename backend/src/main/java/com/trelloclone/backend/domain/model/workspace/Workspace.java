@@ -1,6 +1,7 @@
 package com.trelloclone.backend.domain.model.workspace;
 
 import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.common.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -8,13 +9,11 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
-public class Workspace {
+public class Workspace extends BaseEntity {
     private final WorkspaceId id;
     private String name;
     private String description;
     private final AccountId ownerId;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private final Set<WorkspaceMember> members;
 
     private Workspace(
@@ -24,12 +23,12 @@ public class Workspace {
             AccountId ownerId,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.name = requireNonNull(name);
         this.description = description;
         this.ownerId = requireNonNull(ownerId);
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
         this.members = new HashSet<>();
     }
 
@@ -53,7 +52,7 @@ public class Workspace {
     public void update(String name, String description) {
         this.name = requireNonNull(name);
         this.description = description;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addMember(AccountId accountId, WorkspaceMemberRole role) {
@@ -103,14 +102,6 @@ public class Workspace {
 
     public AccountId getOwnerId() {
         return ownerId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public Set<WorkspaceMember> getMembers() {

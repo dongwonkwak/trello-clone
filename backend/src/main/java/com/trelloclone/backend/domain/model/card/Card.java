@@ -1,6 +1,7 @@
 package com.trelloclone.backend.domain.model.card;
 
 import com.trelloclone.backend.domain.model.board.LabelId;
+import com.trelloclone.backend.domain.model.common.BaseEntity;
 import com.trelloclone.backend.domain.model.list.ListId;
 
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
-public class Card {
+public class Card extends BaseEntity {
     private final CardId id;
     private ListId listId;
     private String title;
@@ -17,8 +18,7 @@ public class Card {
     private LocalDateTime dueDate;
     private String coverImage;
     private boolean archived;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
     private final Set<LabelId> labelIds;
     private final List<Attachment> attachments;
     private final List<Comment> comments;
@@ -35,6 +35,8 @@ public class Card {
             boolean archived,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.listId = requireNonNull(listId);
         this.title = requireNonNull(title);
@@ -43,8 +45,6 @@ public class Card {
         this.dueDate = dueDate;
         this.coverImage = coverImage;
         this.archived = archived;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
         this.labelIds = new HashSet<>();
         this.attachments = new ArrayList<>();
         this.comments = new ArrayList<>();
@@ -72,38 +72,38 @@ public class Card {
         this.description = description;
         this.dueDate = dueDate;
         this.coverImage = coverImage;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void moveToList(ListId newListId, int newPosition) {
         this.listId = Objects.requireNonNull(newListId);
         this.position = newPosition;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void updatePosition(int position) {
         this.position = position;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void archive() {
         this.archived = true;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void unarchive() {
         this.archived = false;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addLabel(LabelId labelId) {
         this.labelIds.add(labelId);
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void removeLabel(LabelId labelId) {
         this.labelIds.remove(labelId);
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addAttachment(Attachment attachment) {
@@ -175,14 +175,6 @@ public class Card {
 
     public boolean isArchived() {
         return archived;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public Set<LabelId> getLabelIds() {

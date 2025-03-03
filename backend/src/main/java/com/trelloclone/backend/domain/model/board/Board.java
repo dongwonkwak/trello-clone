@@ -1,5 +1,6 @@
 package com.trelloclone.backend.domain.model.board;
 
+import com.trelloclone.backend.domain.model.common.BaseEntity;
 import com.trelloclone.backend.domain.model.list.BoardList;
 import com.trelloclone.backend.domain.model.workspace.WorkspaceId;
 
@@ -7,18 +8,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
-public class Board {
+public class Board extends BaseEntity {
     private final BoardId id;
     private final WorkspaceId workspaceId;
     private String name;
     private String description;
     private String background;
     private boolean isPublic;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private final List<BoardList> lists;
     private final List<Label> labels;
 
@@ -31,14 +31,13 @@ public class Board {
             boolean isPublic,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
         this.id = requireNonNull(id);
         this.workspaceId = requireNonNull(workspaceId);
         this.name = requireNonNull(name);
         this.description = description;
         this.background = background;
         this.isPublic = isPublic;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
         this.lists = new ArrayList<>();
         this.labels = new ArrayList<>();
     }
@@ -67,7 +66,7 @@ public class Board {
         this.description = description;
         this.background = background;
         this.isPublic = isPublic;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void addList(BoardList list) {
@@ -108,14 +107,6 @@ public class Board {
 
     public boolean isPublic() {
         return isPublic;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<BoardList> getLists() {

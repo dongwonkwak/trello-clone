@@ -1,18 +1,17 @@
 package com.trelloclone.backend.domain.model.card;
 
 import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.common.BaseEntity;
 
 import java.time.LocalDateTime;
 
 import static java.util.Objects.requireNonNull;
 
-public class Comment {
+public class Comment extends BaseEntity {
     private final CommentId id;
     private final CardId cardId;
     private final AccountId accountId;
     private String content;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     private Comment(
             CommentId id,
@@ -21,12 +20,12 @@ public class Comment {
             String content,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.cardId = requireNonNull(cardId);
         this.accountId = requireNonNull(accountId);
         this.content = requireNonNull(content);
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
     }
 
     public static Comment create(CardId cardId, AccountId accountId, String content) {
@@ -43,7 +42,7 @@ public class Comment {
 
     public void updateContent(String content) {
         this.content = requireNonNull(content);
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public CommentId getId() {
@@ -60,13 +59,5 @@ public class Comment {
 
     public String getContent() {
         return content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 }

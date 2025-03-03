@@ -1,17 +1,17 @@
 package com.trelloclone.backend.domain.model.card;
 
+import com.trelloclone.backend.domain.model.common.BaseEntity;
+
 import java.time.LocalDateTime;
 
 import static java.util.Objects.requireNonNull;
 
-public class ChecklistItem {
+public class ChecklistItem extends BaseEntity {
     private final ChecklistItemId id;
     private final ChecklistId checklistId;
     private String content;
     private boolean completed;
     private int position;
-    private final LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     private ChecklistItem(
             ChecklistItemId id,
@@ -21,13 +21,13 @@ public class ChecklistItem {
             int position,
             LocalDateTime createdAt,
             LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
+
         this.id = requireNonNull(id);
         this.checklistId = requireNonNull(checklistId);
         this.content = requireNonNull(content);
         this.completed = completed;
         this.position = position;
-        this.createdAt = requireNonNull(createdAt);
-        this.updatedAt = updatedAt;
     }
 
     public static ChecklistItem create(ChecklistId checklistId, String content, boolean completed, int position) {
@@ -47,22 +47,22 @@ public class ChecklistItem {
         this.content = requireNonNull(content);
         this.completed = completed;
         this.position = position;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void toggle() {
         this.completed = !this.completed;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void markComplete() {
         this.completed = true;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public void markIncomplete() {
         this.completed = false;
-        this.updatedAt = LocalDateTime.now();
+        recordUpdate();
     }
 
     public ChecklistItemId getId() {
@@ -83,13 +83,5 @@ public class ChecklistItem {
 
     public int getPosition() {
         return position;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 }
