@@ -8,12 +8,13 @@ import com.trelloclone.backend.common.error.Failure;
 import com.trelloclone.backend.domain.model.account.Account;
 import com.trelloclone.backend.domain.model.account.AccountId;
 import com.trelloclone.backend.domain.validation.AccountValidator;
+import com.trelloclone.backend.domain.validation.ValidationMessageKeys;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,10 +26,35 @@ public class AccountService implements
 
     private final AccountPort accountPort;
     private final AccountValidator accountValidator;
+    private final PasswordEncoder encoder;
 
     @Override
     public Either<Failure, Account> createAccount(CreateAccountCommand command) {
-        return null;
+        var validation = accountValidator.validate(command);
+        if (validation.isInvalid()) {
+            return Either.left(Failure.ofValidation(
+                    ValidationMessageKeys.VALIDATION_ERROR,
+                    validation.getError().toJavaList()));
+        }
+
+        if (accountPort.existsByEmail(command.email())) {
+            return Either.left(Failure.ofConflict(CreateAccountCommand.FIELD_EMAIL));
+        }
+
+        if (accountPort.existsByUsername(command.username())) {
+            return Either.left(Failure.ofConflict(CreateAccountCommand.FIELD_USERNAME));
+        }
+
+        var encodedPassword = encoder.encode(command.password());
+
+        var newAccount = Account.create(
+                command.username(),
+                command.email(),
+                encodedPassword,
+                command.fullName(),
+                command.profileImageUrl());
+
+        return accountPort.saveAccount(newAccount);
     }
 
     @Override

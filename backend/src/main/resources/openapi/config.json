@@ -1,0 +1,12 @@
+{
+  "serializableModel": true,
+  "useTags": true,
+  "useSpringBoot3": true,
+  "interfaceOnly": true,
+  "dateLibrary": "java8-localdatetime",
+  "generateApiTests": false,
+  "generateSupportingFiles": false,
+  "skipOperationExample": true,
+  "hideGenerationTimestamp": true,
+  "useBeanValidation": false
+}

@@ -13,7 +13,7 @@ public class Attachment {
     private long size;
     private final LocalDateTime uploadedAt;
 
-    private Attachment(
+    public Attachment(
             AttachmentId id,
             CardId cardId,
             String name,

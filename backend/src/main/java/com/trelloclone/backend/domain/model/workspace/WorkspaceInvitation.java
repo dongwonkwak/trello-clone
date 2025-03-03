@@ -16,7 +16,7 @@ public class WorkspaceInvitation {
     private final LocalDateTime createdAt;
     private final LocalDateTime expiresAt;
 
-    private WorkspaceInvitation(
+    public WorkspaceInvitation(
             WorkspaceInvitationId id,
             WorkspaceId workspaceId,
             String email,

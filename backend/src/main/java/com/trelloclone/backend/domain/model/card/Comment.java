@@ -13,7 +13,7 @@ public class Comment extends BaseEntity {
     private final AccountId accountId;
     private String content;
 
-    private Comment(
+    public Comment(
             CommentId id,
             CardId cardId,
             AccountId accountId,

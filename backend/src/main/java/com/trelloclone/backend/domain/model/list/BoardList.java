@@ -19,7 +19,7 @@ public class BoardList extends BaseEntity {
     private int position;
     private final List<Card> cards;
 
-    private BoardList(
+    public BoardList(
             ListId id,
             BoardId boardId,
             String name,

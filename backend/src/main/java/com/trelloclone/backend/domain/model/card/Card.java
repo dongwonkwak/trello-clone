@@ -24,7 +24,7 @@ public class Card extends BaseEntity {
     private final List<Comment> comments;
     private final List<Checklist> checklists;
 
-    private Card(
+    public Card(
             CardId id,
             ListId listId,
             String title,

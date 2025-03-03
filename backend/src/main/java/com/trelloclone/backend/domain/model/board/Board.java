@@ -22,7 +22,7 @@ public class Board extends BaseEntity {
     private final List<BoardList> lists;
     private final List<Label> labels;
 
-    private Board(
+    public Board(
             BoardId id,
             WorkspaceId workspaceId,
             String name,

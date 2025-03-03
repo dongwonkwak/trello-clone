@@ -18,7 +18,7 @@ public class Checklist extends BaseEntity {
     private int position;
     private final List<ChecklistItem> items;
 
-    private Checklist(
+    public Checklist(
             ChecklistId id,
             CardId cardId,
             String title,

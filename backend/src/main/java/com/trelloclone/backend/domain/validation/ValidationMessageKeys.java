@@ -5,6 +5,9 @@ public class ValidationMessageKeys {
     private ValidationMessageKeys() {
     }
 
+    // Common validation message keys
+    public static final String VALIDATION_ERROR = "validation.error";
+
     // Username validation message keys
     public static final String USERNAME_EMPTY = "validation.username.empty";
     public static final String USERNAME_SIZE = "validation.username.size";

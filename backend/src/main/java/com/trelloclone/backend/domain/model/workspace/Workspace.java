@@ -16,7 +16,7 @@ public class Workspace extends BaseEntity {
     private final AccountId ownerId;
     private final Set<WorkspaceMember> members;
 
-    private Workspace(
+    public Workspace(
             WorkspaceId id,
             String name,
             String description,

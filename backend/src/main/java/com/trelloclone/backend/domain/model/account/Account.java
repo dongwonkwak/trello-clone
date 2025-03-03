@@ -10,16 +10,16 @@ public class Account extends BaseEntity {
     private final AccountId id;
     private String username;
     private String email;
+    private String password;
     private String fullName;
     private String profileImageUrl;
     private boolean emailVerified;
-    //private final LocalDateTime createdAt;
-    //private LocalDateTime updatedAt;
 
-    private Account(
+    public Account(
             AccountId id,
             String username,
             String email,
+            String password,
             String fullName,
             String profileImageUrl,
             boolean emailVerified,
@@ -29,6 +29,7 @@ public class Account extends BaseEntity {
         this.id = requireNonNull(id);
         this.username = requireNonNull(username);
         this.email = requireNonNull(email);
+        this.password = requireNonNull(password);
         this.fullName = fullName;
         this.profileImageUrl = profileImageUrl;
         this.emailVerified = emailVerified;
@@ -37,12 +38,14 @@ public class Account extends BaseEntity {
     public static Account create(
             String username,
             String email,
+            String password,
             String fullName,
             String profileImageUrl) {
         return new Account(
                 AccountId.newId(),
                 username,
                 email,
+                password,
                 fullName,
                 profileImageUrl,
                 false,
@@ -76,6 +79,10 @@ public class Account extends BaseEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getFullName() {

@@ -13,7 +13,7 @@ public class ChecklistItem extends BaseEntity {
     private boolean completed;
     private int position;
 
-    private ChecklistItem(
+    public ChecklistItem(
             ChecklistItemId id,
             ChecklistId checklistId,
             String content,

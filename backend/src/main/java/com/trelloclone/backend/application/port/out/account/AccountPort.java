@@ -45,4 +45,8 @@ public interface AccountPort {
      * @param accountId 계정 ID
      */
     void deleteAccount(AccountId accountId);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByUsername(String username);
 }
