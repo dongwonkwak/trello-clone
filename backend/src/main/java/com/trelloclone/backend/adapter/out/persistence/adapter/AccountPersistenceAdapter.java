@@ -20,29 +20,47 @@ public class AccountPersistenceAdapter implements AccountPort {
     @Override
     public Either<Failure, Account> saveAccount(Account account) {
         return Try.of(() -> accountRepository.save(AccountPersistenceMapper.toEntity(account)))
-                .map(AccountPersistenceMapper::toDomain)
-                .map(Either::<Failure, Account>right)
-                .getOrElseGet(ex -> Either.left(Failure.ofInternalServerError(ex.getMessage())));
+                .toEither()
+                .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
+                .map(AccountPersistenceMapper::toDomain);
     }
 
     @Override
     public Either<Failure, Account> findAccountById(AccountId accountId) {
-        return null;
+        return Try.of(() -> accountRepository.findById((accountId.id())))
+                .toEither()
+                .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
+                .flatMap(optionalAccount -> optionalAccount
+                        .map(AccountPersistenceMapper::toDomain)
+                        .map(Either::<Failure, Account>right)
+                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with id: " + accountId.id().toString()))));
     }
 
     @Override
     public Either<Failure, Account> findAccountByEmail(String email) {
-        return null;
+        return Try.of(() -> accountRepository.findByEmail(email))
+                .toEither()
+                .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
+                .flatMap(optionalAccount -> optionalAccount
+                        .map(AccountPersistenceMapper::toDomain)
+                        .map(Either::<Failure, Account>right)
+                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with email: " + email))));
     }
 
     @Override
     public Either<Failure, Account> findAccountByUsername(String username) {
-        return null;
+        return Try.of(() -> accountRepository.findByUsername(username))
+                .toEither()
+                .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
+                .flatMap(optionalAccount -> optionalAccount
+                        .map(AccountPersistenceMapper::toDomain)
+                        .map(Either::<Failure, Account>right)
+                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with username: " + username))));
     }
 
     @Override
     public void deleteAccount(AccountId accountId) {
-
+        accountRepository.deleteById(accountId.id());
     }
 
     @Override

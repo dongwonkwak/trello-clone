@@ -8,9 +8,9 @@ import static java.util.Objects.requireNonNull;
 
 public class Account extends BaseEntity {
     private final AccountId id;
-    private String username;
-    private String email;
-    private String password;
+    private final String username;
+    private final String email;
+    private final String password;
     private String fullName;
     private String profileImageUrl;
     private boolean emailVerified;
@@ -23,7 +23,8 @@ public class Account extends BaseEntity {
             String fullName,
             String profileImageUrl,
             boolean emailVerified,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
 
         this.id = requireNonNull(id);

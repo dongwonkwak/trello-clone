@@ -15,7 +15,8 @@ public class MessageConfig {
         var messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames(
                 "classpath:/messages/messages",
-                "classpath:/messages/ValidationMessages");
+                "classpath:/messages/ValidationMessages",
+                "classpath:/messages/EmailMessages");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setDefaultLocale(Locale.US);
         return messageSource;

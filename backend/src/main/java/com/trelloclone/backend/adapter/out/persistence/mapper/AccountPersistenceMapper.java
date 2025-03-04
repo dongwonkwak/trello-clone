@@ -6,6 +6,10 @@ import com.trelloclone.backend.domain.model.account.AccountId;
 
 public class AccountPersistenceMapper {
 
+    private AccountPersistenceMapper() {
+
+    }
+
     public static Account toDomain(AccountEntity entity) {
         return new Account(
                 AccountId.of(entity.getId()),

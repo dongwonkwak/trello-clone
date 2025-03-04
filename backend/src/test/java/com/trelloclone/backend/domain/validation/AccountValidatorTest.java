@@ -113,10 +113,10 @@ class AccountValidatorTest {
         @Test
         @DisplayName("Should validate correct password")
         void shouldValidateCorrectPassword() {
-            Validation<Failure.FieldViolation, String> result = validator.validatePassword("Password123");
+            Validation<Failure.FieldViolation, String> result = validator.validatePassword("Password123!");
 
             assertThat(result.isValid()).isTrue();
-            assertThat(result.get()).isEqualTo("Password123");
+            assertThat(result.get()).isEqualTo("Password123!");
         }
 
         @Test

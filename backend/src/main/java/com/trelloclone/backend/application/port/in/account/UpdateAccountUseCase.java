@@ -23,4 +23,13 @@ public interface UpdateAccountUseCase {
      * @return 업데이트된 계정
      */
     Either<Failure, Account> verifyEmail(AccountId accountId);
+
+    /**
+     * 계정 활성화 토큰을 검증하고 계정을 활성화합니다.
+     *
+     * @param token 활성화 토큰
+     * @return 활성화된 계정
+     */
+    Either<Failure, Account> activateAccount(String token);
+
 }

@@ -10,3 +10,18 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+  mail:
+    host:
+    port:
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+application:
+  base-url: http://localhost:8080
