@@ -119,15 +119,23 @@ public class AccountService implements
     @Override
     public Either<Failure, Account> verifyEmail(AccountId accountId) {
         return getAccountById(accountId)
-                .map(account -> {
+                .flatMap(account -> {
+                    // 이미 활성화 되었다면...
+                    if (account.isEmailVerified()) {
+                        return Either.left(Failure.ofBadRequest("Email is already verified"));
+                    }
                     account.verifyEmail();
-                    return account;
+                    return Either.right(account);
                 })
                 .flatMap(accountPort::saveAccount);
     }
 
     @Override
     public Either<Failure, Account> activateAccount(String token) {
+        if (token == null || token.isBlank()) {
+            return Either.left(Failure.ofBadRequest("Token is required"));
+        }
+
         return tokenPort.validateActivationToken(token)
                 .flatMap(this::verifyEmail);
     }

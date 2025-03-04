@@ -1,0 +1,79 @@
+<!-- src/main/resources/templates/account-activation-result.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${success} ? #{account.activation.success.title} : #{account.activation.error.title}">계정 활성화 결과</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            color: #4CAF50;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .error-icon {
+            color: #F44336;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .message {
+            margin-bottom: 32px;
+        }
+        .button {
+            background-color: #0079bf;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 성공 시 -->
+    <div th:if="${success}">
+        <div class="success-icon">✓</div>
+        <h1 class="title" th:text="#{account.activation.success.title}">계정 활성화 성공!</h1>
+        <p class="message" th:text="#{account.activation.success.message(${username})}">
+            계정이 성공적으로 활성화되었습니다.
+        </p>
+        <a href="${frontendUrl} + '/login'" class="button" th:text="#{account.activation.login.button}">로그인하기</a>
+    </div>
+
+    <!-- 실패 시 -->
+    <div th:if="${!success}">
+        <div class="error-icon">✗</div>
+        <h1 class="title" th:text="#{account.activation.error.title}">계정 활성화 실패</h1>
+        <p class="message" th:text="${message}">
+            활성화 과정에서 오류가 발생했습니다.
+        </p>
+        <a href="/resend-activation" class="button" th:text="#{account.activation.resend.button}">활성화 메일 재전송</a>
+    </div>
+</div>
+</body>
+</html>
