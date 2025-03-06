@@ -2,6 +2,7 @@ package com.trelloclone.backend.application.service.account;
 
 import com.trelloclone.backend.application.port.in.account.CreateAccountUseCase;
 import com.trelloclone.backend.application.port.in.account.GetAccountUseCase;
+import com.trelloclone.backend.application.port.in.account.ResendActivationUseCase;
 import com.trelloclone.backend.application.port.in.account.UpdateAccountUseCase;
 import com.trelloclone.backend.application.port.out.account.AccountPort;
 import com.trelloclone.backend.application.port.out.token.TokenPort;
@@ -10,6 +11,7 @@ import com.trelloclone.backend.domain.domain.AccountCreatedEvent;
 import com.trelloclone.backend.domain.model.account.Account;
 import com.trelloclone.backend.domain.model.account.AccountId;
 import com.trelloclone.backend.domain.validation.AccountValidator;
+import com.trelloclone.backend.domain.validation.ErrorMessageKeys;
 import com.trelloclone.backend.domain.validation.ValidationMessageKeys;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 
 @Service
@@ -30,7 +33,8 @@ import java.time.LocalDateTime;
 public class AccountService implements
         CreateAccountUseCase,
         GetAccountUseCase,
-        UpdateAccountUseCase {
+        UpdateAccountUseCase,
+        ResendActivationUseCase {
 
     private final AccountPort accountPort;
     private final AccountValidator accountValidator;
@@ -95,7 +99,6 @@ public class AccountService implements
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Either<Failure, Account> getAccountByEmail(String email) {
         return accountPort.findAccountByEmail(email);
     }
@@ -138,5 +141,40 @@ public class AccountService implements
 
         return tokenPort.validateActivationToken(token)
                 .flatMap(this::verifyEmail);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Either<Failure, Void> resendActivation(String email) {
+        var validation = accountValidator.validateEmail(email);
+        if (validation.isInvalid()) {
+            log.error("resendActivation Validation failed: {}", validation.getError());
+            return Either.left(Failure.ofValidation(
+                    ValidationMessageKeys.VALIDATION_ERROR,
+                    Collections.singleton(validation.getError())));
+        }
+
+        return getAccountByEmail(email)
+                .flatMap(account -> {
+                    if (account.isEmailVerified()) {
+                        log.error("[resendActivation] Account already verified: {}", email);
+                        return Either.left(Failure.ofBadRequest(
+                                ErrorMessageKeys.ACCOUNT_ALREADY_VERIFIED));
+                    }
+
+                    tokenPort.createActivationToken(account.getId(), LocalDateTime.now().plusHours(24))
+                            .map(token -> {
+                                var locale = LocaleContextHolder.getLocale();
+                                var event = AccountCreatedEvent.builder()
+                                        .activationToken(token)
+                                        .email(email)
+                                        .username(account.getUsername())
+                                        .locale(locale)
+                                        .build();
+                                eventPublisher.publishEvent(event);
+                                return null;
+                            });
+                    return null;
+                });
     }
 }

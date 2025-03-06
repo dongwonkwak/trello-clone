@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{resend.activation.success.title}">
+        활성화 이메일 재전송 완료
+    </title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 500px;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            color: #4CAF50;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        .message {
+            margin-bottom: 32px;
+        }
+        .button {
+            background-color: #0079bf;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 성공 시 -->
+    <div>
+        <div class="success-icon">✓</div>
+        <h1 class="title" th:text="#{resend.activation.success.title}">활성화 이메일 발송 완료</h1>
+        <p class="message" th:text="#{resend.activation.success.message(${email})}">
+            이메일 주소로 새로운 활성화 링크가 발송되었습니다. 이메일을 확인해주세요.
+        </p>
+        <a th:href="${frontendUrl} + '/login'" class="button" th:text="#{resend.activation.login}">
+            로그인 페이지로 이동
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import com.trelloclone.backend.application.port.out.account.AccountPort;
 import com.trelloclone.backend.common.error.Failure;
 import com.trelloclone.backend.domain.model.account.Account;
 import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.validation.ErrorMessageKeys;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class AccountPersistenceAdapter implements AccountPort {
                 .flatMap(optionalAccount -> optionalAccount
                         .map(AccountPersistenceMapper::toDomain)
                         .map(Either::<Failure, Account>right)
-                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with id: " + accountId.id().toString()))));
+                        .orElseGet(() -> Either.left(Failure.ofNotFound(ErrorMessageKeys.ACCOUNT_NOT_FOUND))));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class AccountPersistenceAdapter implements AccountPort {
                 .flatMap(optionalAccount -> optionalAccount
                         .map(AccountPersistenceMapper::toDomain)
                         .map(Either::<Failure, Account>right)
-                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with email: " + email))));
+                        .orElseGet(() -> Either.left(Failure.ofNotFound(ErrorMessageKeys.ACCOUNT_NOT_FOUND))));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class AccountPersistenceAdapter implements AccountPort {
                 .flatMap(optionalAccount -> optionalAccount
                         .map(AccountPersistenceMapper::toDomain)
                         .map(Either::<Failure, Account>right)
-                        .orElseGet(() -> Either.left(Failure.ofNotFound("Account not found with username: " + username))));
+                        .orElseGet(() -> Either.left(Failure.ofNotFound(ErrorMessageKeys.ACCOUNT_NOT_FOUND))));
     }
 
     @Override

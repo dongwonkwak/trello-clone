@@ -16,7 +16,8 @@ public class MessageConfig {
         messageSource.setBasenames(
                 "classpath:/messages/messages",
                 "classpath:/messages/ValidationMessages",
-                "classpath:/messages/EmailMessages");
+                "classpath:/messages/EmailMessages",
+                "classpath:/messages/ErrorMessages");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setDefaultLocale(Locale.US);
         return messageSource;
