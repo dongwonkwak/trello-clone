@@ -256,7 +256,6 @@ class AccountServiceTest {
         @DisplayName("Should verify email")
         void shouldVerifyEmail() {
             // Given
-            testAccount.verifyEmail();
             Account verifiedAccount = testAccount;
 
             when(accountPort.findAccountById(accountId)).thenReturn(Either.right(testAccount));
@@ -279,7 +278,6 @@ class AccountServiceTest {
         @DisplayName("Should activate account with token")
         void shouldActivateAccountWithToken() {
             // Given
-            testAccount.verifyEmail();
             when(tokenPort.validateActivationToken("valid-token")).thenReturn(Either.right(accountId));
             when(accountPort.findAccountById(accountId)).thenReturn(Either.right(testAccount));
             when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(testAccount));
@@ -290,6 +288,63 @@ class AccountServiceTest {
             // Then
             assertThat(result.isRight()).isTrue();
             assertThat(result.get().isEmailVerified()).isTrue();
+        }
+    }
+
+    @Nested
+    @DisplayName("Resend Activation Tests")
+    class ResendActivationTests {
+
+        @Test
+        @DisplayName("Should resend activation email successfully")
+        void shouldResendActivationEmailSuccessfully() {
+            // Given
+            when(accountValidator.validateEmail(anyString())).thenReturn(Validation.valid("test@example.com"));
+            when(accountPort.findAccountByEmail(anyString())).thenReturn(Either.right(testAccount));
+            when(tokenPort.createActivationToken(any(AccountId.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
+
+            // When
+            accountService.resendActivation("test@example.com");
+
+            // Then
+            verify(eventPublisher).publishEvent(any(AccountCreatedEvent.class));
+        }
+
+        @Test
+        @DisplayName("Should return failure when email validation fails")
+        void shouldReturnFailureWhenEmailValidationFails() {
+            // Given
+            Failure.FieldViolation violation = Failure.FieldViolation.builder()
+                    .field("email")
+                    .message("Invalid email")
+                    .build();
+
+            when(accountValidator.validateEmail(anyString())).thenReturn(Validation.invalid(violation));
+
+            // When
+            Either<Failure, Void> result = accountService.resendActivation("invalid-email");
+
+            // Then
+            assertThat(result.isLeft()).isTrue();
+            assertThat(result.getLeft()).isInstanceOf(Failure.ValidationFailure.class);
+            verify(accountPort, never()).findAccountByEmail(anyString());
+        }
+
+        @Test
+        @DisplayName("Should return failure when account is already verified")
+        void shouldReturnFailureWhenAccountIsAlreadyVerified() {
+            // Given
+            testAccount.verifyEmail();
+            when(accountValidator.validateEmail(anyString())).thenReturn(Validation.valid("test@example.com"));
+            when(accountPort.findAccountByEmail(anyString())).thenReturn(Either.right(testAccount));
+
+            // When
+            Either<Failure, Void> result = accountService.resendActivation("test@example.com");
+
+            // Then
+            assertThat(result.isLeft()).isTrue();
+            assertThat(result.getLeft()).isInstanceOf(Failure.IllegalFailure.class);
+            verify(tokenPort, never()).createActivationToken(any(AccountId.class), any(LocalDateTime.class));
         }
     }
 }
