@@ -1,7 +1,7 @@
 package com.trelloclone.backend.application.service.email;
 
 import com.trelloclone.backend.application.port.out.email.EmailPort;
-import com.trelloclone.backend.domain.domain.AccountCreatedEvent;
+import com.trelloclone.backend.domain.event.AccountCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

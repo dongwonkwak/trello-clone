@@ -1,4 +1,4 @@
-package com.trelloclone.backend.domain.domain;
+package com.trelloclone.backend.domain.event;
 
 import lombok.Builder;
 

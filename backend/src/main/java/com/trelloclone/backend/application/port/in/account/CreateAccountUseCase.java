@@ -1,7 +1,7 @@
 package com.trelloclone.backend.application.port.in.account;
 
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.model.account.Account;
+import com.trelloclone.backend.domain.model.Account;
 import io.vavr.control.Either;
 import lombok.Builder;
 

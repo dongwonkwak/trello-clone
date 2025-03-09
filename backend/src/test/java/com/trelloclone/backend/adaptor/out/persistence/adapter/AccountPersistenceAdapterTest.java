@@ -4,8 +4,8 @@ import com.trelloclone.backend.adapter.out.persistence.adapter.AccountPersistenc
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
 import com.trelloclone.backend.adapter.out.persistence.repository.AccountRepository;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,18 +33,15 @@ class AccountPersistenceAdapterTest {
 
     private AccountPersistenceAdapter adapter;
     private final UUID testId = UUID.randomUUID();
-    private final AccountId accountId = new AccountId(testId);
+    private final Id accountId = Id.of(testId);
     private final AccountEntity accountEntity = new AccountEntity();
-    private final Account account = new Account(
-            accountId,
-            "testuser",
-            "test@example.com",
-            "password",
-            "Test User",
-            null,
-            false,
-            LocalDateTime.now(),
-            LocalDateTime.now());
+    private final Account account = Account.builder()
+            .id(accountId)
+            .username("testuser")
+            .email("test@example.com")
+            .password("password")
+            .fullName("Test User")
+            .build();
 
     @BeforeEach
     void setUp() {

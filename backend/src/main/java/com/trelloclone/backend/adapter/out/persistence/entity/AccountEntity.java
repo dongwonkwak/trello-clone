@@ -6,8 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -44,12 +42,6 @@ public class AccountEntity {
 
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = false;
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private Set<WorkspaceMemberEntity> workspaces = new HashSet<>();
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private Set<CommentEntity> comments = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {

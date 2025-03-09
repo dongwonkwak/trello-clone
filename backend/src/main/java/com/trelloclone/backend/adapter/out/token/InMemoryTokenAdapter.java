@@ -2,7 +2,7 @@ package com.trelloclone.backend.adapter.out.token;
 
 import com.trelloclone.backend.application.port.out.token.TokenPort;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Id;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.springframework.stereotype.Component;
@@ -19,11 +19,11 @@ public class InMemoryTokenAdapter implements TokenPort {
 
     private final ConcurrentHashMap<String, TokenInfo> tokens = new ConcurrentHashMap<>();
 
-    private record TokenInfo(AccountId accountId, LocalDateTime expiresAt) {
+    private record TokenInfo(Id accountId, LocalDateTime expiresAt) {
     }
 
     @Override
-    public Either<Failure, String> createActivationToken(AccountId accountId, LocalDateTime expiresAt) {
+    public Either<Failure, String> createActivationToken(Id accountId, LocalDateTime expiresAt) {
         return Try.of(() -> {
                     // 고유한 토큰 생성
                     String tokenValue = generateToken(accountId);
@@ -38,7 +38,7 @@ public class InMemoryTokenAdapter implements TokenPort {
     }
 
     @Override
-    public Either<Failure, AccountId> validateActivationToken(String token) {
+    public Either<Failure, Id> validateActivationToken(String token) {
         TokenInfo tokenInfo = tokens.get(token);
 
         if (tokenInfo == null) {
@@ -56,7 +56,7 @@ public class InMemoryTokenAdapter implements TokenPort {
         return Either.right(tokenInfo.accountId);
     }
 
-    private String generateToken(AccountId accountId) throws Exception {
+    private String generateToken(Id accountId) throws Exception {
         String input = accountId.id().toString() + UUID.randomUUID() + System.currentTimeMillis();
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));

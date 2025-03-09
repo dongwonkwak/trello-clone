@@ -2,8 +2,8 @@ package com.trelloclone.backend.adaptor.out.persistence.mapper;
 
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
 import com.trelloclone.backend.adapter.out.persistence.mapper.AccountPersistenceMapper;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -52,16 +52,17 @@ class AccountPersistenceMapperTest {
     @DisplayName("Should convert from domain model to entity")
     void shouldConvertFromDomainToEntity() {
         // Given
-        Account account = new Account(
-                new AccountId(id),
-                "testuser",
-                "test@example.com",
-                "password123",
-                "Test User",
-                "profile.jpg",
-                true,
-                now,
-                updated);
+        Account account = Account.builder()
+                .id(Id.of(id))
+                .username("testuser")
+                .email("test@example.com")
+                .password("password123")
+                .fullName("Test User")
+                .profileImageUrl("profile.jpg")
+                .emailVerified(true)
+                .createdAt(now)
+                .updatedAt(updated)
+                .build();
 
         // When
         AccountEntity entity = AccountPersistenceMapper.toEntity(account);

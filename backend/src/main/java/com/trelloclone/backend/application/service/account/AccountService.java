@@ -7,9 +7,9 @@ import com.trelloclone.backend.application.port.in.account.UpdateAccountUseCase;
 import com.trelloclone.backend.application.port.out.account.AccountPort;
 import com.trelloclone.backend.application.port.out.token.TokenPort;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.domain.AccountCreatedEvent;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.event.AccountCreatedEvent;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 import com.trelloclone.backend.domain.validation.AccountValidator;
 import com.trelloclone.backend.domain.validation.ErrorMessageKeys;
 import com.trelloclone.backend.domain.validation.ValidationMessageKeys;
@@ -64,12 +64,13 @@ public class AccountService implements
 
         var encodedPassword = encoder.encode(command.password());
 
-        var newAccount = Account.create(
-                command.username(),
-                command.email(),
-                encodedPassword,
-                command.fullName(),
-                command.profileImageUrl());
+        var newAccount = Account.builder()
+                .username(command.username())
+                .email(command.email())
+                .password(encodedPassword)
+                .fullName(command.fullName())
+                .profileImageUrl(command.profileImageUrl())
+                .build();
 
         return accountPort.saveAccount(newAccount)
                 .map(savedAccount -> {
@@ -94,7 +95,7 @@ public class AccountService implements
     }
 
     @Override
-    public Either<Failure, Account> getAccountById(AccountId accountId) {
+    public Either<Failure, Account> getAccountById(Id accountId) {
         return accountPort.findAccountById(accountId);
     }
 
@@ -112,23 +113,23 @@ public class AccountService implements
     @Override
     public Either<Failure, Account> updateAccount(UpdateAccountCommand command) {
         return getAccountById(command.accountId())
-                .map(account -> {
-                    account.updateProfile(command.fullName(), command.profileImageUrl());
-                    return account;
-                })
+                .map(account ->
+                     account.toBuilder()
+                            .fullName(command.fullName())
+                            .profileImageUrl(command.profileImageUrl())
+                            .build())
                 .flatMap(accountPort::saveAccount);
     }
 
     @Override
-    public Either<Failure, Account> verifyEmail(AccountId accountId) {
+    public Either<Failure, Account> verifyEmail(Id accountId) {
         return getAccountById(accountId)
                 .flatMap(account -> {
                     // 이미 활성화 되었다면...
                     if (account.isEmailVerified()) {
                         return Either.left(Failure.ofBadRequest("Email is already verified"));
                     }
-                    account.verifyEmail();
-                    return Either.right(account);
+                    return Either.right(account.verifyEmail());
                 })
                 .flatMap(accountPort::saveAccount);
     }

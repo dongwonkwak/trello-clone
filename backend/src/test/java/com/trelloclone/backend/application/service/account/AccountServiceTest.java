@@ -6,9 +6,9 @@ import com.trelloclone.backend.application.port.in.account.UpdateAccountUseCase;
 import com.trelloclone.backend.application.port.out.account.AccountPort;
 import com.trelloclone.backend.application.port.out.token.TokenPort;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.domain.AccountCreatedEvent;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.event.AccountCreatedEvent;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 import com.trelloclone.backend.domain.validation.AccountValidator;
 import io.vavr.collection.List;
 import io.vavr.control.Either;
@@ -54,7 +54,7 @@ class AccountServiceTest {
     private AccountService accountService;
 
     private final UUID testId = UUID.randomUUID();
-    private final AccountId accountId = new AccountId(testId);
+    private final Id accountId = Id.of(testId);
     private Account testAccount;
 
     @BeforeEach
@@ -62,17 +62,13 @@ class AccountServiceTest {
         accountService = new AccountService(
                 accountPort, accountValidator, passwordEncoder, tokenPort, eventPublisher
         );
-
-        testAccount =  new Account(
-                accountId,
-                "testuser",
-                "test@example.com",
-                "encoded_password",
-                "Test User",
-                null,
-                false,
-                LocalDateTime.now(),
-                LocalDateTime.now());
+        testAccount = Account.builder()
+                .id(accountId)
+                .username("testuser")
+                .email("test@example.com")
+                .password("encoded_password")
+                .fullName("Test User")
+                .build();
     }
 
     @Nested
@@ -93,7 +89,7 @@ class AccountServiceTest {
             when(accountPort.existsByUsername(anyString())).thenReturn(false);
             when(passwordEncoder.encode(anyString())).thenReturn("encoded_password");
             when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(testAccount));
-            when(tokenPort.createActivationToken(any(AccountId.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
+            when(tokenPort.createActivationToken(any(Id.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
 
             // When
             Either<Failure, Account> result = accountService.createAccount(validCommand);
@@ -233,7 +229,10 @@ class AccountServiceTest {
             // Given
             UpdateAccountUseCase.UpdateAccountCommand command = new UpdateAccountUseCase.UpdateAccountCommand(accountId, "New Name", "image.jpg");
             Account updatedAccount = testAccount;
-            updatedAccount.updateProfile("New Name", "image.jpg");
+            updatedAccount.toBuilder()
+                            .fullName("New Name")
+                            .profileImageUrl("image.jpg")
+                            .build();
 
             when(accountPort.findAccountById(accountId)).thenReturn(Either.right(testAccount));
             when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(updatedAccount));
@@ -278,16 +277,18 @@ class AccountServiceTest {
         @DisplayName("Should activate account with token")
         void shouldActivateAccountWithToken() {
             // Given
-            when(tokenPort.validateActivationToken("valid-token")).thenReturn(Either.right(accountId));
-            when(accountPort.findAccountById(accountId)).thenReturn(Either.right(testAccount));
-            when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(testAccount));
+            Account accountSpy = spy(testAccount);
+
+            when(tokenPort.validateActivationToken(anyString())).thenReturn(Either.right(accountId));
+            when(accountPort.findAccountById(accountId)).thenReturn(Either.right(accountSpy));
+            when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(accountSpy));
 
             // When
             Either<Failure, Account> result = accountService.activateAccount("valid-token");
 
             // Then
             assertThat(result.isRight()).isTrue();
-            assertThat(result.get().isEmailVerified()).isTrue();
+            verify(accountSpy).verifyEmail();
         }
     }
 
@@ -301,7 +302,7 @@ class AccountServiceTest {
             // Given
             when(accountValidator.validateEmail(anyString())).thenReturn(Validation.valid("test@example.com"));
             when(accountPort.findAccountByEmail(anyString())).thenReturn(Either.right(testAccount));
-            when(tokenPort.createActivationToken(any(AccountId.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
+            when(tokenPort.createActivationToken(any(Id.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
 
             // When
             accountService.resendActivation("test@example.com");
@@ -334,9 +335,9 @@ class AccountServiceTest {
         @DisplayName("Should return failure when account is already verified")
         void shouldReturnFailureWhenAccountIsAlreadyVerified() {
             // Given
-            testAccount.verifyEmail();
+            var spyAccount = spy(testAccount.verifyEmail());
             when(accountValidator.validateEmail(anyString())).thenReturn(Validation.valid("test@example.com"));
-            when(accountPort.findAccountByEmail(anyString())).thenReturn(Either.right(testAccount));
+            when(accountPort.findAccountByEmail(anyString())).thenReturn(Either.right(spyAccount));
 
             // When
             Either<Failure, Void> result = accountService.resendActivation("test@example.com");
@@ -344,7 +345,7 @@ class AccountServiceTest {
             // Then
             assertThat(result.isLeft()).isTrue();
             assertThat(result.getLeft()).isInstanceOf(Failure.IllegalFailure.class);
-            verify(tokenPort, never()).createActivationToken(any(AccountId.class), any(LocalDateTime.class));
+            verify(tokenPort, never()).createActivationToken(any(Id.class), any(LocalDateTime.class));
         }
     }
 }

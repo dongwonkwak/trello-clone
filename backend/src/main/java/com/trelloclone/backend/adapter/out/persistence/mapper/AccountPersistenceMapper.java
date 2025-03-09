@@ -1,8 +1,8 @@
 package com.trelloclone.backend.adapter.out.persistence.mapper;
 
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 
 public class AccountPersistenceMapper {
 
@@ -11,17 +11,17 @@ public class AccountPersistenceMapper {
     }
 
     public static Account toDomain(AccountEntity entity) {
-        return new Account(
-                AccountId.of(entity.getId()),
-                entity.getUsername(),
-                entity.getEmail(),
-                entity.getPassword(),
-                entity.getFullName(),
-                entity.getProfileImage(),
-                entity.isEmailVerified(),
-                entity.getCreatedAt(),
-                entity.getUpdatedAt()
-        );
+        return Account.builder()
+                .id(Id.of(entity.getId()))
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .fullName(entity.getFullName())
+                .profileImageUrl(entity.getProfileImage())
+                .emailVerified(entity.isEmailVerified())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .build();
     }
 
     public static AccountEntity toEntity(Account account) {

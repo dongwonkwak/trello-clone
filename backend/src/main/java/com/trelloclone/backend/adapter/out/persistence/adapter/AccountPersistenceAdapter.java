@@ -4,8 +4,8 @@ import com.trelloclone.backend.adapter.out.persistence.mapper.AccountPersistence
 import com.trelloclone.backend.adapter.out.persistence.repository.AccountRepository;
 import com.trelloclone.backend.application.port.out.account.AccountPort;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.model.account.Account;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Account;
+import com.trelloclone.backend.domain.model.Id;
 import com.trelloclone.backend.domain.validation.ErrorMessageKeys;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -27,7 +27,7 @@ public class AccountPersistenceAdapter implements AccountPort {
     }
 
     @Override
-    public Either<Failure, Account> findAccountById(AccountId accountId) {
+    public Either<Failure, Account> findAccountById(Id accountId) {
         return Try.of(() -> accountRepository.findById((accountId.id())))
                 .toEither()
                 .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
@@ -60,7 +60,7 @@ public class AccountPersistenceAdapter implements AccountPort {
     }
 
     @Override
-    public void deleteAccount(AccountId accountId) {
+    public void deleteAccount(Id accountId) {
         accountRepository.deleteById(accountId.id());
     }
 

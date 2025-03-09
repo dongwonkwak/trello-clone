@@ -2,7 +2,7 @@ package com.trelloclone.backend.adaptor.out.token;
 
 import com.trelloclone.backend.adapter.out.token.InMemoryTokenAdapter;
 import com.trelloclone.backend.common.error.Failure;
-import com.trelloclone.backend.domain.model.account.AccountId;
+import com.trelloclone.backend.domain.model.Id;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ class InMemoryTokenAdapterTest {
 
     private InMemoryTokenAdapter tokenAdapter;
     private final UUID testId = UUID.randomUUID();
-    private final AccountId accountId = new AccountId(testId);
+    private final Id accountId = Id.of(testId);
 
     @BeforeEach
     void setUp() {
@@ -45,14 +45,14 @@ class InMemoryTokenAdapterTest {
         String token = tokenAdapter.createActivationToken(accountId, LocalDateTime.now().plusHours(24)).get();
 
         // When
-        Either<Failure, AccountId> result = tokenAdapter.validateActivationToken(token);
+        Either<Failure, Id> result = tokenAdapter.validateActivationToken(token);
 
         // Then
         assertThat(result.isRight()).isTrue();
         assertThat(result.get()).isEqualTo(accountId);
 
         // Verify token was removed after validation
-        Either<Failure, AccountId> secondValidation = tokenAdapter.validateActivationToken(token);
+        Either<Failure, Id> secondValidation = tokenAdapter.validateActivationToken(token);
         assertThat(secondValidation.isLeft()).isTrue();
         assertThat(secondValidation.getLeft().message()).contains("Invalid activation token");
     }
@@ -61,7 +61,7 @@ class InMemoryTokenAdapterTest {
     @DisplayName("Should reject invalid token")
     void shouldRejectInvalidToken() {
         // When
-        Either<Failure, AccountId> result = tokenAdapter.validateActivationToken("invalid-token");
+        Either<Failure, Id> result = tokenAdapter.validateActivationToken("invalid-token");
 
         // Then
         assertThat(result.isLeft()).isTrue();
@@ -76,7 +76,7 @@ class InMemoryTokenAdapterTest {
         String token = tokenAdapter.createActivationToken(accountId, LocalDateTime.now().minusHours(1)).get();
 
         // When
-        Either<Failure, AccountId> result = tokenAdapter.validateActivationToken(token);
+        Either<Failure, Id> result = tokenAdapter.validateActivationToken(token);
 
         // Then
         assertThat(result.isLeft()).isTrue();
