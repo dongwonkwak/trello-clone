@@ -6,6 +6,9 @@ paths:
   /v1/accounts/me:
     get:
       summary: 내 정보 조회
+      security:
+        - OAuth2: ['read']
+      
       description: 내 정보를 조회합니다.
       operationId: getMe
       tags:
@@ -28,6 +31,8 @@ paths:
     put:
       summary: 내 정보 수정
       description: 내 정보를 수정합니다.
+      security:
+        - OAuth2: ['write']
       operationId: putMe
       tags:
         - Account
