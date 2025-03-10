@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    AccountResponse:
+      title: AccountResponse Object
+      description: a structured representation of an account
+      type: object
+      required:
+        - id
+        - email
+        - username
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6c4a6b54-30c9-11ed-a261-0242ac120002
+        email:
+          type: string
+          format: email
+          example: jonedoe@example.com
+        username:
+          type: string
+          example: jone
+        fullName:
+          type: string
+          example: John Doe
+        profileImage:
+          $ref: './Link.yaml#/components/schemas/Link'
+        createdAt:
+          type: string
+          format: date-time
+          example: 2021-01-01T00:00:00Z
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2022-03-01T00:00:00Z

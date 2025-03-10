@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    SignupRequest:
+      title: Signup Request Object
+      description: a structured representation of a signup
+      type: object
+      required:
+        - email
+        - username
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: jonedoe@example.com
+        username:
+          type: string
+          example: jone
+        password:
+          type: string
+          format: password
+          example: password

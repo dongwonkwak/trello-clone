@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths:
+  /v1/auth/signup:
+    post:
+      summary: Sign up
+      description: Sign up for a new account
+      operationId: signup
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/SignupRequest.yaml#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: Created
+        '400':
+          $ref: '../components/responses/400Response.yaml#/components/responses/400Response'
+        '409':
+          $ref: '../components/responses/409Response.yaml#/components/responses/409Response'
+        '422':
+          $ref: '../components/responses/422Response.yaml#/components/responses/422Response'

@@ -1,0 +1,21 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    403Response:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/Error.yaml#/components/schemas/Error'
+          example:
+            errors:
+              - title: Forbidden
+                status: 403
+                detail: >-
+                  Access to this resource is forbidden. Please check you are
+                  authorized to access this resource.
+                id: '747c7b00-30c9-11ed-a261-0242ac120002'

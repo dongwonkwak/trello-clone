@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    404Response:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/Error.yaml#/components/schemas/Error'
+          example:
+            errors:
+              - title: Not Found
+                status: 404
+                detail: Resource not found.
+                id: '6c4a6b54-30c9-11ed-a261-0242ac120002'

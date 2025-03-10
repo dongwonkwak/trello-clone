@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    422Response:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/Error.yaml#/components/schemas/Error'
+          example:
+            errors:
+              - title: Unprocessable Entity
+                status: 422
+                detail: Unprocessable Entity
+                id: 'b4deccaa-21df-453b-93eb-a71c95015b62'

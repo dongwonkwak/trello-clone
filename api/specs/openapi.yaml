@@ -12,135 +12,35 @@ servers:
 # 태그 정의
 tags:
   - name: Auth
-    description: 인증 및 계정 관련 엔드포인트
+    description: 사용자 인증 관련 API
   - name: Account
-    description: 사용자 계정 관리 엔드포인트
-  - name: Workspace
-    description: 작업공간 관리 엔드포인트
-  - name: WorkspaceMember
-    description: 작업공간 멤버 관리 엔드포인트
-  - name: WorkspaceInvitation
-    description: 작업공간 초대 관리 엔드포인트
+    description: 사용자 계정 관련 API
   - name: Board
-    description: 보드 관리 엔드포인트
+    description: 보드 관련 API
   - name: List
-    description: 리스트 관리 엔드포인트
+    description: 리스트 관련 API
   - name: Card
-    description: 카드 관리 엔드포인트
+    description: 카드 관련 API
   - name: Label
-    description: 라벨 관리 엔드포인트
+    description: 라벨 관련 API
   - name: Attachment
-    description: 첨부파일 관리 엔드포인트
+    description: 첨부파일 관련 API
   - name: Comment
-    description: 댓글 관리 엔드포인트
+    description: 댓글 관련 API
   - name: Checklist
-    description: 체크리스트 관리 엔드포인트
+    description: 체크리스트 관련 API
   - name: ChecklistItem
-    description: 체크리스트 항목 관리 엔드포인트
+    description: 체크리스트 항목 관련 API
 
 # 보안 스키마 참조
 components:
   securitySchemes:
-    $ref: './components/security-schemes.yaml#/securitySchemes'
-  schemas:
-    $ref: './components/schemas.yaml#/schemas'
+    $ref: 'components/securitySchemes/OAuth2.yaml#/components/securitySchemes'
 
 
 paths:
-  # 인증 관련 API
-  /oauth2/authorize:
-    $ref: './paths/auth.yaml#/paths/~1oauth2~1authorize'
-  /oauth2/token:
-    $ref: './paths/auth.yaml#/paths/~1oauth2~1token'
-  /oauth2/refresh:
-    $ref: './paths/auth.yaml#/paths/~1oauth2~1refresh'
-  /oauth2/revoke:
-    $ref: './paths/auth.yaml#/paths/~1oauth2~1revoke'
-  /account/me:
-    $ref: './paths/auth.yaml#/paths/~1account~1me'
-  /accounts/{accountId}:
-    $ref: './paths/auth.yaml#/paths/~1accounts~1{accountId}'
-  /auth/signup:
-    $ref: './paths/auth.yaml#/paths/~1auth~1signup'
-  /auth/verify-email:
-    $ref: './paths/auth.yaml#/paths/~1auth~1verify-email'
-  /auth/forgot-password:
-    $ref: './paths/auth.yaml#/paths/~1auth~1forgot-password'
-  /auth/reset-password:
-    $ref: './paths/auth.yaml#/paths/~1auth~1reset-password'
+  /v1/account/me:
+    $ref: 'paths/v1-accounts-me.yaml#/paths/~1v1~1accounts~1me'
 
-  # 작업공간 관련 API
-  /workspaces:
-    $ref: './paths/workspaces.yaml#/paths/~1workspaces'
-  /workspaces/{workspaceId}:
-    $ref: './paths/workspaces.yaml#/paths/~1workspaces~1{workspaceId}'
-  /workspaces/{workspaceId}/members:
-    $ref: './paths/workspaces.yaml#/paths/~1workspaces~1{workspaceId}~1members'
-  /workspaces/{workspaceId}/members/{memberId}:
-    $ref: './paths/workspaces.yaml#/paths/~1workspaces~1{workspaceId}~1members~1{memberId}'
-  /workspaces/{workspaceId}/invitations:
-    $ref: './paths/workspaces.yaml#/paths/~1workspaces~1{workspaceId}~1invitations'
-  /invitations/{invitationId}/accept:
-    $ref: './paths/workspaces.yaml#/paths/~1invitations~1{invitationId}~1accept'
-  /invitations/{invitationId}/decline:
-    $ref: './paths/workspaces.yaml#/paths/~1invitations~1{invitationId}~1decline'
-  /account/invitations:
-    $ref: './paths/workspaces.yaml#/paths/~1account~1invitations'
-
-  # 보드 관련 API
-  /workspaces/{workspaceId}/boards:
-    $ref: './paths/boards.yaml#/paths/~1workspaces~1{workspaceId}~1boards'
-  /boards/{boardId}:
-    $ref: './paths/boards.yaml#/paths/~1boards~1{boardId}'
-  /boards/{boardId}/labels:
-    $ref: './paths/boards.yaml#/paths/~1boards~1{boardId}~1labels'
-
-  # 리스트 관련 API
-  /boards/{boardId}/lists:
-    $ref: './paths/lists.yaml#/paths/~1boards~1{boardId}~1lists'
-  /boards/{boardId}/lists/positions:
-    $ref: './paths/lists.yaml#/paths/~1boards~1{boardId}~1lists~1positions'
-  /lists/{listId}:
-    $ref: './paths/lists.yaml#/paths/~1lists~1{listId}'
-  /lists/{listId}/cards:
-    $ref: './paths/cards.yaml#/paths/~1lists~1{listId}~1cards'
-  /lists/{listId}/cards/positions:
-    $ref: './paths/cards.yaml#/paths/~1lists~1{listId}~1cards~1positions'
-
-  # 카드 관련 API
-  /cards/{cardId}:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}'
-  /cards/{cardId}/move:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}~1move'
-  /cards/{cardId}/labels/{labelId}:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}~1labels~1{labelId}'
-  /cards/{cardId}/attachments:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}~1attachments'
-  /cards/{cardId}/comments:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}~1comments'
-  /cards/{cardId}/checklists:
-    $ref: './paths/cards.yaml#/paths/~1cards~1{cardId}~1checklists'
-
-  # 라벨 관련 API
-  /labels/{labelId}:
-    $ref: './paths/boards.yaml#/paths/~1labels~1{labelId}'
-
-  # 첨부파일 관련 API
-  /attachments/{attachmentId}:
-    $ref: './paths/cards.yaml#/paths/~1attachments~1{attachmentId}'
-
-  # 댓글 관련 API
-  /comments/{commentId}:
-    $ref: './paths/cards.yaml#/paths/~1comments~1{commentId}'
-
-  # 체크리스트 관련 API
-  /checklists/{checklistId}:
-    $ref: './paths/cards.yaml#/paths/~1checklists~1{checklistId}'
-  /checklists/{checklistId}/items:
-    $ref: './paths/cards.yaml#/paths/~1checklists~1{checklistId}~1items'
-  /checklists/{checklistId}/items/positions:
-    $ref: './paths/cards.yaml#/paths/~1checklists~1{checklistId}~1items~1positions'
-
-  # 체크리스트 항목 관련 API
-  /checklist-items/{itemId}:
-    $ref: './paths/cards.yaml#/paths/~1checklist-items~1{itemId}'
+  /v1/auth/signup:
+    $ref: 'paths/v1-auth-signup.yaml#/paths/~1v1~1auth~1signup'

@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  parameters:
+    accountId:
+      name: accountId
+      in: path
+      description: The ID of the account
+      required: true
+      style: simple
+      schema:
+        type: string
+        format: uuid
+        example: '4fa45f80-01dd-413c-8ca5-5d87be32ef01'

@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    409Response:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/Error.yaml#/components/schemas/Error'
+          example:
+            errors:
+              - title: Conflict
+                status: 409
+                detail: Conflict
+                id: '4fa45f80-01dd-413c-8ca5-5d87be32ef01'

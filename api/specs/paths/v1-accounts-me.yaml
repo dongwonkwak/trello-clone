@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths:
+  /v1/accounts/me:
+    get:
+      summary: 내 정보 조회
+      description: 내 정보를 조회합니다.
+      operationId: getMe
+      tags:
+        - Account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/AccountResponse.yaml#/components/schemas/AccountResponse'
+              example:
+                  id: 3880637e-93b8-4afd-8ade-ed47c85e118f
+                  email: jonedoe@example.com
+                  username: jonedoe
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'
+        '500':
+          $ref: '../components/responses/500Response.yaml#/components/responses/500Response'
+    put:
+      summary: 내 정보 수정
+      description: 내 정보를 수정합니다.
+      operationId: putMe
+      tags:
+        - Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  description: 사용자의 전체 이름
+                  example: John Doe
+                profileImage:
+                  $ref: '../components/schemas/Link.yaml#/components/schemas/Link'
+      responses:
+        '200':
+          description: 계정 정보 수정 성공
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/AccountResponse.yaml#/components/schemas/AccountResponse'
+        '400':
+          $ref: '../components/responses/400Response.yaml#/components/responses/400Response'
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'

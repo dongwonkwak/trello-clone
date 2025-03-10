@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  responses:
+    401Response:
+      description: Not authorized
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/Error.yaml#/components/schemas/Error'
+          example:
+            errors:
+              - title: Not authorized
+                status: 401
+                detail: Authentication failure.
+                id: '8011c394-30c9-11ed-a261-0242ac120002'

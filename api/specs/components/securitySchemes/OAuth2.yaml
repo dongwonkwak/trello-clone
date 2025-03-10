@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: 트렐로 클론 API
+  version: 1.0.0
+paths: {}
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: read access
+            write: write access

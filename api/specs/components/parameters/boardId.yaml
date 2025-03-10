@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  parameters:
+    boardId:
+      name: boardId
+      in: path
+      description: The ID of the board
+      required: true
+      style: simple
+      schema:
+        type: string
+        format: uuid
+        example: 'd8ec6b7c-a5f9-16ac-76d0-7da97292c582'
