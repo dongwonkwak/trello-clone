@@ -19,7 +19,6 @@ public class AccountUserDetails implements UserDetails {
         return account;
     }
 
-
     @Override
     public boolean isEnabled() {
         return account.isEmailVerified();

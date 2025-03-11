@@ -4,11 +4,13 @@ import com.trelloclone.backend.common.error.Failure;
 import com.trelloclone.backend.domain.model.Account;
 import com.trelloclone.backend.domain.model.Id;
 import io.vavr.control.Either;
+import lombok.Builder;
 
 public interface UpdateAccountUseCase {
 
     Either<Failure, Account> updateAccount(UpdateAccountCommand command);
 
+    @Builder
     record UpdateAccountCommand(
             Id accountId,
             String fullName,
