@@ -1,4 +1,4 @@
-package com.trelloclone.backend.infrastructure.security;
+package com.trelloclone.backend.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

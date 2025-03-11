@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{login.title}">Login</title>
+    <style>
+        body {
+            font-family: \'Helvetica Neue\', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #0079bf;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #006aa7;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .links a {
+            display: block;
+            margin: 8px 0;
+            color: #0079bf;
+            text-decoration: none;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 th:text="#{login.title}">Login</h1>
+        <p th:text="#{login.instruction}">Enter your email and password to log in.</p>
+    </div>
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="email" th:text="#{login.email.label}">Email</label>
+            <input type="email" id="email" name="email" th:placeholder="#{login.email.placeholder}" th:value="${email}" required>
+        </div>
+        <div class="form-group">
+            <label for="password" th:text="#{login.password.label}">Password</label>
+            <input type="password" id="password" name="password" th:placeholder="#{login.password.placeholder}" required>
+        </div>
+        <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+        <button type="submit" class="submit-btn" th:text="#{login.submit}">Login</button>
+    </form>
+    <div class="links">
+        <a th:href="@{/v1/signup}" th:text="#{login.signup.link}">Don't have an account? Sign up</a>
+        <a th:href="@{/forgot-password}" th:text="#{login.forgotPassword.link}">Forgot Password?</a>
+    </div>
+</div>
+</body>
+</html>
