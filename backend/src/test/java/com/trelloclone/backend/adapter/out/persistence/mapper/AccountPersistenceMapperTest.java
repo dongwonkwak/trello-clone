@@ -1,4 +1,4 @@
-package com.trelloclone.backend.adaptor.out.persistence.mapper;
+package com.trelloclone.backend.adapter.out.persistence.mapper;
 
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
 import com.trelloclone.backend.adapter.out.persistence.mapper.AccountPersistenceMapper;

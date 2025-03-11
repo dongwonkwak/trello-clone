@@ -28,7 +28,9 @@ public class DefaultSecurityConfig {
             // 계정 활성화 재전송
             new AntPathRequestMatcher("/resend-activation"),
             // 계정 활성화 재전송 성공
-            new AntPathRequestMatcher("/resend-activation-success", "GET")
+            new AntPathRequestMatcher("/resend-activation-success", "GET"),
+            // 회원 가입
+            new AntPathRequestMatcher("/v1/signup", "POST"),
     };
 
     @Bean

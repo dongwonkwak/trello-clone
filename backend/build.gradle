@@ -21,6 +21,30 @@ repositories {
 	mavenCentral()
 }
 
+processResources {
+    dependsOn(tasks.openApiGenerate)
+}
+
+processTestResources {
+    dependsOn(tasks.openApiGenerate)
+}
+
+def resourceDir = project.sourceSets.main.resources.srcDirs.first()
+def openApiDir = new File(resourceDir, "openapi")
+def openApiFile = new File(rootDir, "../api/specs/openapi.yaml")
+
+openApiGenerate {
+    generatorName = 'spring'
+    library = "spring-boot"
+    inputSpec = "$openApiFile"
+    outputDir = "$projectDir"
+    apiPackage = "com.trelloclone.backend.adapter.in.web.api"
+    modelPackage = "com.trelloclone.backend.adapter.in.web.model"
+    ignoreFileOverride = "$openApiDir/.openapi-generator-ignore"
+    configFile = "$openApiDir/config.json"
+    templateDir = "$openApiDir/templates"
+}
+
 dependencies {
     implementation(libs.bundles.spring.boot.libraries)
 
@@ -34,6 +58,9 @@ dependencies {
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
     testAnnotationProcessor(libs.mapstruct.processor)
+
+    // openapi
+    implementation(libs.bundles.openapi.libraries)
 
     runtimeOnly(libs.h2database)
     implementation(libs.postgres)
@@ -56,3 +83,5 @@ tasks.named("dependencyUpdates").configure {
         isNonStable(it.candidate.version)
     }
 }
+
+compileJava.dependsOn tasks.openApiGenerate

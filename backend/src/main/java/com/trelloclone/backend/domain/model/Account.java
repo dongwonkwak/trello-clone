@@ -3,6 +3,8 @@ package com.trelloclone.backend.domain.model;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode(of = "id")
@@ -22,22 +24,25 @@ public class Account {
     @Builder.Default
     private boolean emailVerified = false;
 
-    public static class AccountBuilder {
+    // 사용자가 소유한 보드
+    @Singular
+    private final List<Board> ownedBoards;
+
+    // 사용자가 참여한 보드
+    @Singular
+    private final List<BoardMember> boardMemberships;
+
+    public static class AccountBuilder extends BaseEntityBuilder<Account, AccountBuilder> {
+
+        @Override
         public Account build() {
-            if (this.id == null) {
-                this.id = Id.newId();
-            }
-
-            if (this.createdAt == null) {
-                this.createdAt = LocalDateTime.now();
-            }
-
+            setupDefaults();
             return _build();
         }
     }
 
     public AccountBuilder toBuilder() {
-        var builder = new AccountBuilder()
+        return new AccountBuilder()
                 .id(this.id)
                 .username(this.username)
                 .email(this.email)
@@ -45,10 +50,10 @@ public class Account {
                 .fullName(this.fullName)
                 .profileImageUrl(this.profileImageUrl)
                 .emailVerified(false)
+                .ownedBoards(new ArrayList<>(this.ownedBoards))
+                .boardMemberships(new ArrayList<>(this.boardMemberships))
                 .createdAt(this.createdAt)
                 .updatedAt(LocalDateTime.now());
-
-        return builder;
     }
 
     public static AccountBuilder builder() {

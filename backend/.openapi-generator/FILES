@@ -1,0 +1,11 @@
+src/main/java/com/trelloclone/backend/adapter/in/web/api/AccountApi.java
+src/main/java/com/trelloclone/backend/adapter/in/web/api/ApiUtil.java
+src/main/java/com/trelloclone/backend/adapter/in/web/api/AuthApi.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/AccountResponse.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/Error.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/ErrorErrorsInner.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/ErrorErrorsInnerLinks.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/ErrorErrorsInnerSource.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/Link.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/PutMeRequest.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/SignupRequest.java

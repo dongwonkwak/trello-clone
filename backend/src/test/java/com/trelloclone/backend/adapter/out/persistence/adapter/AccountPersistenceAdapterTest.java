@@ -1,4 +1,4 @@
-package com.trelloclone.backend.adaptor.out.persistence.adapter;
+package com.trelloclone.backend.adapter.out.persistence.adapter;
 
 import com.trelloclone.backend.adapter.out.persistence.adapter.AccountPersistenceAdapter;
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;

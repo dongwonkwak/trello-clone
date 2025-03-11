@@ -1,4 +1,4 @@
-package com.trelloclone.backend.adaptor.out.token;
+package com.trelloclone.backend.adapter.out.token;
 
 import com.trelloclone.backend.adapter.out.token.InMemoryTokenAdapter;
 import com.trelloclone.backend.common.error.Failure;

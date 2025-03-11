@@ -1,6 +1,7 @@
 [versions]
 commonsLang3Version = "3.17.0"
 h2databaseVersion = "2.3.232"
+jacksonDatabindVersion = "0.2.6"
 # @keep this version
 javaVersion = "21"
 lombokVersion = "1.18.36"
@@ -17,6 +18,7 @@ versionUpdateVersion = "0.52.0"
 [libraries]
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang3Version" }
 h2database = { module = "com.h2database:h2", version.ref = "h2databaseVersion" }
+jackson-databind-nullable = { module = "org.openapitools:jackson-databind-nullable", version.ref = "jacksonDatabindVersion" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstructVersion" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstructVersion" }
@@ -47,6 +49,10 @@ versionUpdate = { id = "com.github.ben-manes.versions", version.ref = "versionUp
 common-libraries = [
     "commons-lang3",
     "vavr",
+]
+openapi-libraries = [
+    "jackson-databind-nullable",
+    "spring-boot-stater-webmvc-ui",
 ]
 spring-boot-libraries = [
     "spring-boot-devtools",
