@@ -1,0 +1,7 @@
+{
+  "space": 2,
+  "apiPackage": "api",
+  "modelPackage": "model",
+  "withSeparateModelsAndApi": true,
+  "supportsES6": true
+}
