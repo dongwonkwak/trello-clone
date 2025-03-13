@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/i18n": "^9.3.1",
+    "@nuxtjs/tailwindcss": "^6.13.2",
     "@pinia/nuxt": "^0.10.1",
     "nuxt": "^3.16.0",
     "oidc-client-ts": "^3.1.0",
@@ -20,8 +21,8 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.18.1",
+    "@openapitools/openapi-generator-cli": "^2.15.3",
     "@types/node": "^22.13.10",
-    "openapi-typescript-codegen": "^0.29.0",
     "typescript": "^5.8.2",
     "vue-tsc": "^2.2.8"
   }
