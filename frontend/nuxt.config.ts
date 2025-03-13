@@ -3,8 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: [
-      '@nuxtjs/i18n',
-      '@pinia/nuxt',
+    '@nuxtjs/i18n',
+    '@pinia/nuxt',
+    '@nuxtjs/tailwindcss',
   ],
   ssr: false,
   typescript: {
@@ -21,7 +22,6 @@ export default defineNuxtConfig({
         dir: 'ltr',
       },
       {
-
         code: 'ko',
         iso: 'ko-KR',
         name: '한국어',

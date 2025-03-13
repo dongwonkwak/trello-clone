@@ -3,10 +3,12 @@ import {
 } from "oidc-client-ts";
 
 import { AuthService } from "~/services/auth";
+import {useAuthStore} from "~/stores/auth";
 
 export const useAuthService = () => {
   const config = useRuntimeConfig();
   const oidcConfig = config.public.oidc as OidcConfig;
+  const store = useAuthStore();
 
   const settings: UserManagerSettings = {
     authority: oidcConfig.authority,
@@ -22,6 +24,18 @@ export const useAuthService = () => {
   }
 
   const authService = new AuthService(settings);
+  authService.events().addUserLoaded((user) => {
+    console.log("[AuthService] user loaded");
+    store.setUser(user);
+    if (user?.url_state) {
+      window.location.href = user?.url_state;
+    }
+  })
+
+  authService.events().addUserUnloaded(() => {
+    console.log("[AuthService] user unloaded");
+    store.setUser(null);
+  })
 
   return authService;
 }
