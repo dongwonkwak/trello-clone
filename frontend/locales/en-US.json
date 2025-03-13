@@ -1,0 +1,25 @@
+{
+  "common": {
+    "appName": "Trello Clone",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "goHome": "Go Home"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "fullName": "Full Name",
+    "noAccount": "Don't have an account?"
+  }
+}

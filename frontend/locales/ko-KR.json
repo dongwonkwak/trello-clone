@@ -1,0 +1,25 @@
+{
+  "common": {
+    "appName": "트렐로 클론",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "편집",
+    "create": "만들기",
+    "goHome": "홈으로 돌아가기"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "signup": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "username": "사용자명",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "resetPassword": "비밀번호 재설정",
+    "fullName": "이름",
+    "noAccount": "계정이 없으신가요?"
+  }
+}
