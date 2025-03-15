@@ -21,7 +21,6 @@ public class AccountEmailListener {
 
         emailPort.sendAccountActivationEmail(
                 event.email(),
-                event.username(),
                 event.activationToken(),
                 event.locale()
         ).fold(

@@ -27,28 +27,50 @@ public class PutMeRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private @Nullable String fullName;
+  private @Nullable String firstName;
+
+  private @Nullable String lastName;
 
   private @Nullable Link profileImage;
 
-  public PutMeRequest fullName(String fullName) {
-    this.fullName = fullName;
+  public PutMeRequest firstName(String firstName) {
+    this.firstName = firstName;
     return this;
   }
 
   /**
-   * 사용자의 전체 이름
-   * @return fullName
+   * 사용자 이름
+   * @return firstName
    */
   
-  @Schema(name = "fullName", example = "John Doe", description = "사용자의 전체 이름", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("fullName")
-  public String getFullName() {
-    return fullName;
+  @Schema(name = "firstName", example = "John", description = "사용자 이름", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("firstName")
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public PutMeRequest lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  /**
+   * 사용자 성
+   * @return lastName
+   */
+  
+  @Schema(name = "lastName", example = "Doe", description = "사용자 성", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastName")
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public PutMeRequest profileImage(Link profileImage) {
@@ -80,20 +102,22 @@ public class PutMeRequest implements Serializable {
       return false;
     }
     PutMeRequest putMeRequest = (PutMeRequest) o;
-    return Objects.equals(this.fullName, putMeRequest.fullName) &&
+    return Objects.equals(this.firstName, putMeRequest.firstName) &&
+        Objects.equals(this.lastName, putMeRequest.lastName) &&
         Objects.equals(this.profileImage, putMeRequest.profileImage);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fullName, profileImage);
+    return Objects.hash(firstName, lastName, profileImage);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PutMeRequest {\n");
-    sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
+    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
+    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    profileImage: ").append(toIndentedString(profileImage)).append("\n");
     sb.append("}");
     return sb.toString();

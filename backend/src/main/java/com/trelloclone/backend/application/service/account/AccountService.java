@@ -57,18 +57,14 @@ public class AccountService implements
             return Either.left(Failure.ofConflict(CreateAccountCommand.FIELD_EMAIL));
         }
 
-        if (accountPort.existsByUsername(command.username())) {
-            log.error("Username already exists: {}", command.username());
-            return Either.left(Failure.ofConflict(CreateAccountCommand.FIELD_USERNAME));
-        }
 
         var encodedPassword = encoder.encode(command.password());
 
         var newAccount = Account.builder()
-                .username(command.username())
+                .firstName(command.firstName())
+                .lastName(command.lastName())
                 .email(command.email())
                 .password(encodedPassword)
-                .fullName(command.fullName())
                 .profileImageUrl(command.profileImageUrl())
                 .build();
 
@@ -80,7 +76,6 @@ public class AccountService implements
                                 var event = AccountCreatedEvent.builder()
                                         .activationToken(token)
                                         .email(command.email())
-                                        .username(command.username())
                                         .locale(locale)
                                         .build();
                                 eventPublisher.publishEvent(event);
@@ -104,18 +99,22 @@ public class AccountService implements
         return accountPort.findAccountByEmail(email);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Either<Failure, Account> getAccountByUsername(String username) {
-        return accountPort.findAccountByUsername(username);
-    }
 
     @Override
     public Either<Failure, Account> updateAccount(UpdateAccountCommand command) {
+        var validation = accountValidator.validate(command);
+        if (validation.isInvalid()) {
+            log.error("[updateAccount] Validation failed: {}", validation.getError());
+            return Either.left(Failure.ofValidation(
+                    ValidationMessageKeys.VALIDATION_ERROR,
+                    validation.getError().toJavaList()));
+        }
+
         return getAccountById(command.accountId())
                 .map(account ->
                      account.toBuilder()
-                            .fullName(command.fullName())
+                            .firstName(command.firstName())
+                            .lastName(command.lastName())
                             .profileImageUrl(command.profileImageUrl())
                             .build())
                 .flatMap(accountPort::saveAccount);
@@ -169,7 +168,6 @@ public class AccountService implements
                                 var event = AccountCreatedEvent.builder()
                                         .activationToken(token)
                                         .email(email)
-                                        .username(account.getUsername())
                                         .locale(locale)
                                         .build();
                                 eventPublisher.publishEvent(event);

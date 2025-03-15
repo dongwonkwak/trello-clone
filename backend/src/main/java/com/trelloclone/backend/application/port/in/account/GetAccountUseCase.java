@@ -24,11 +24,4 @@ public interface GetAccountUseCase {
      */
     Either<Failure, Account> getAccountByEmail(String email);
 
-    /**
-     * 사용자명으로 계정을 조회합니다.
-     *
-     * @param username 사용자명
-     * @return 계정 정보 (존재하지 않으면 Failure.NotFoundFailure)
-     */
-    Either<Failure, Account> getAccountByUsername(String username);
 }

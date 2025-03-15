@@ -32,14 +32,6 @@ public interface AccountPort {
     Either<Failure, Account> findAccountByEmail(String email);
 
     /**
-     * 사용자명으로 계정을 조회합니다.
-     *
-     * @param username 사용자명
-     * @return 계정 정보 (존재하지 않으면 empty)
-     */
-    Either<Failure, Account> findAccountByUsername(String username);
-
-    /**
      * 계정을 삭제합니다.
      *
      * @param accountId 계정 ID
@@ -47,6 +39,4 @@ public interface AccountPort {
     void deleteAccount(Id accountId);
 
     boolean existsByEmail(String email);
-
-    boolean existsByUsername(String username);
 }

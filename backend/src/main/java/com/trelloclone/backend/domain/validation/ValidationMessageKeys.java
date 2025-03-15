@@ -8,10 +8,15 @@ public class ValidationMessageKeys {
     // Common validation message keys
     public static final String VALIDATION_ERROR = "validation.error";
 
-    // Username validation message keys
-    public static final String USERNAME_EMPTY = "validation.username.empty";
-    public static final String USERNAME_SIZE = "validation.username.size";
-    public static final String USERNAME_PATTERN = "validation.username.pattern";
+    // first name validation message keys
+    public static final String FIRSTNAME_EMPTY = "validation.firstname.empty";
+    public static final String FIRSTNAME_SIZE = "validation.firstname.size";
+    public static final String FIRSTNAME_PATTERN = "validation.firstname.pattern";
+
+    // last name validation message keys
+    public static final String LASTNAME_EMPTY = "validation.lastname.empty";
+    public static final String LASTNAME_SIZE = "validation.lastname.size";
+    public static final String LASTNAME_PATTERN = "validation.lastname.pattern";
 
     // Email validation message keys
     public static final String EMAIL_EMPTY = "validation.email.empty";

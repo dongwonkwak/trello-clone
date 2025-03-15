@@ -13,10 +13,10 @@ import java.util.List;
 public class Account {
 
     private final Id id;
-    private final String username;
     private final String email;
     private final String password;
-    private final String fullName;
+    private final String firstName;
+    private final String lastName;
     private final String profileImageUrl;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
@@ -44,12 +44,12 @@ public class Account {
     public AccountBuilder toBuilder() {
         return new AccountBuilder()
                 .id(this.id)
-                .username(this.username)
                 .email(this.email)
                 .password(this.password)
-                .fullName(this.fullName)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
                 .profileImageUrl(this.profileImageUrl)
-                .emailVerified(false)
+                .emailVerified(this.emailVerified)
                 .ownedBoards(new ArrayList<>(this.ownedBoards))
                 .boardMemberships(new ArrayList<>(this.boardMemberships))
                 .createdAt(this.createdAt)

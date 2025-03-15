@@ -13,10 +13,10 @@ public class AccountPersistenceMapper {
     public static Account toDomain(AccountEntity entity) {
         return Account.builder()
                 .id(Id.of(entity.getId()))
-                .username(entity.getUsername())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
-                .fullName(entity.getFullName())
                 .profileImageUrl(entity.getProfileImage())
                 .emailVerified(entity.isEmailVerified())
                 .createdAt(entity.getCreatedAt())
@@ -27,10 +27,10 @@ public class AccountPersistenceMapper {
     public static AccountEntity toEntity(Account account) {
         AccountEntity entity = new AccountEntity();
         entity.setId(account.getId().id());
-        entity.setUsername(account.getUsername());
+        entity.setFirstName(account.getFirstName());
+        entity.setLastName(account.getLastName());
         entity.setEmail(account.getEmail());
         entity.setPassword(account.getPassword());
-        entity.setFullName(account.getFullName());
         entity.setProfileImage(account.getProfileImageUrl());
         entity.setEmailVerified(account.isEmailVerified());
         entity.setCreatedAt(account.getCreatedAt());

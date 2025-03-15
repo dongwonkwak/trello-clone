@@ -1,6 +1,7 @@
 package com.trelloclone.backend.domain.validation;
 
 import com.trelloclone.backend.application.port.in.account.CreateAccountUseCase.CreateAccountCommand;
+import com.trelloclone.backend.application.port.in.account.UpdateAccountUseCase.UpdateAccountCommand;
 import com.trelloclone.backend.common.error.Failure.FieldViolation;
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
@@ -13,48 +14,88 @@ import static io.vavr.API.*;
 
 @Component
 public final class AccountValidator {
-    public static final String USERNAME_PATTERN = "^[a-zA-Z0-9_]{3,20}$";
+    public static final String NAME_PATTERN = "^[\\p{L}]+$";
     public static final String EMAIL_PATTERN = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
     public static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
 
     public Validation<Seq<FieldViolation>, CreateAccountCommand> validate(CreateAccountCommand command) {
         return Validation.combine(
-                validateUsername(command.username()),
+                validateFirstName(command.firstName()),
+                validateLastName(command.lastName()),
                 validateEmail(command.email()),
                 validatePassword(command.password())
-        ).ap((username, email, password) -> command);
+        ).ap((firstName, lastName,email, password) -> command);
     }
 
-    public Validation<FieldViolation, String> validateUsername(String username) {
-        if (StringUtils.isBlank(username)) {
-            return Invalid(
-                    FieldViolation.builder()
-                            .field(CreateAccountCommand.FIELD_USERNAME)
-                            .message(ValidationMessageKeys.USERNAME_EMPTY)
-                            .build());
-        }
-
-        if (username.length() < 3 || username.length() > 20) {
-            return Invalid(
-                    FieldViolation.builder()
-                            .field(CreateAccountCommand.FIELD_USERNAME)
-                            .message(ValidationMessageKeys.USERNAME_SIZE)
-                            .args(new Object[]{3, 20})
-                            .rejectedValue(username)
-                            .build());
-        }
-
-        if (!Pattern.compile(USERNAME_PATTERN).matcher(username).matches()) {
-            return Invalid(
-                    FieldViolation.builder()
-                            .field(CreateAccountCommand.FIELD_USERNAME)
-                            .message(ValidationMessageKeys.USERNAME_PATTERN)
-                            .rejectedValue(username)
-                            .build());
-        }
-
-        return Valid(username);
+    public Validation<Seq<FieldViolation>, UpdateAccountCommand> validate(UpdateAccountCommand command) {
+        return Validation.combine(
+                validateFirstName(command.firstName()),
+                validateLastName(command.lastName())
+        ).ap((firstName, lastName) -> command);
     }
+
+    public Validation<FieldViolation, String> validateFirstName(String firstName) {
+        if (StringUtils.isBlank(firstName)) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_FIRSTNAME)
+                            .message(ValidationMessageKeys.FIRSTNAME_EMPTY)
+                            .build());
+        }
+
+        if (firstName.length() < 2 || firstName.length() > 50) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_FIRSTNAME)
+                            .message(ValidationMessageKeys.FIRSTNAME_SIZE)
+                            .args(new Object[]{2, 50})
+                            .rejectedValue(firstName)
+                            .build());
+        }
+
+        if (!Pattern.compile(NAME_PATTERN).matcher(firstName).matches()) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_FIRSTNAME)
+                            .message(ValidationMessageKeys.FIRSTNAME_PATTERN)
+                            .rejectedValue(firstName)
+                            .build());
+        }
+
+        return Valid(firstName);
+    }
+
+    public Validation<FieldViolation, String> validateLastName(String lastName) {
+        if (StringUtils.isBlank(lastName)) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_LASTNAME)
+                            .message(ValidationMessageKeys.LASTNAME_EMPTY)
+                            .build());
+        }
+
+        if (lastName.length() < 2 || lastName.length() > 50) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_LASTNAME)
+                            .message(ValidationMessageKeys.LASTNAME_SIZE)
+                            .args(new Object[]{2, 50})
+                            .rejectedValue(lastName)
+                            .build());
+        }
+
+        if (!Pattern.compile(NAME_PATTERN).matcher(lastName).matches()) {
+            return Invalid(
+                    FieldViolation.builder()
+                            .field(CreateAccountCommand.FIELD_LASTNAME)
+                            .message(ValidationMessageKeys.LASTNAME_PATTERN)
+                            .rejectedValue(lastName)
+                            .build());
+        }
+
+        return Valid(lastName);
+    }
+
 
     public Validation<FieldViolation, String> validateEmail(String email) {
         if (StringUtils.isBlank(email)) {

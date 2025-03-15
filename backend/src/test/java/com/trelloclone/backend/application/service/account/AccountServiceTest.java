@@ -64,10 +64,10 @@ class AccountServiceTest {
         );
         testAccount = Account.builder()
                 .id(accountId)
-                .username("testuser")
+                .firstName("john")
+                .lastName("doe")
                 .email("test@example.com")
                 .password("encoded_password")
-                .fullName("Test User")
                 .build();
     }
 
@@ -76,7 +76,7 @@ class AccountServiceTest {
     class CreateAccountTests {
 
         private final CreateAccountUseCase.CreateAccountCommand validCommand = new CreateAccountUseCase.CreateAccountCommand(
-                "testuser", "test@example.com", "Password123", null, null
+                "john", "doe", "test@example.com", "Password123", null
         );
 
         @Test
@@ -86,7 +86,6 @@ class AccountServiceTest {
             when(accountValidator.validate(any(CreateAccountUseCase.CreateAccountCommand.class)))
                     .thenReturn(Validation.valid(validCommand));
             when(accountPort.existsByEmail(anyString())).thenReturn(false);
-            when(accountPort.existsByUsername(anyString())).thenReturn(false);
             when(passwordEncoder.encode(anyString())).thenReturn("encoded_password");
             when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(testAccount));
             when(tokenPort.createActivationToken(any(Id.class), any(LocalDateTime.class))).thenReturn(Either.right("token"));
@@ -128,24 +127,6 @@ class AccountServiceTest {
             when(accountValidator.validate(any(CreateAccountUseCase.CreateAccountCommand.class)))
                     .thenReturn(Validation.valid(validCommand));
             when(accountPort.existsByEmail(anyString())).thenReturn(true);
-
-            // When
-            Either<Failure, Account> result = accountService.createAccount(validCommand);
-
-            // Then
-            assertThat(result.isLeft()).isTrue();
-            assertThat(result.getLeft()).isInstanceOf(Failure.ConflictFailure.class);
-            verify(accountPort, never()).saveAccount(any());
-        }
-
-        @Test
-        @DisplayName("Should reject when username already exists")
-        void shouldRejectWhenUsernameAlreadyExists() {
-            // Given
-            when(accountValidator.validate(any(CreateAccountUseCase.CreateAccountCommand.class)))
-                    .thenReturn(Validation.valid(validCommand));
-            when(accountPort.existsByEmail(anyString())).thenReturn(false);
-            when(accountPort.existsByUsername(anyString())).thenReturn(true);
 
             // When
             Either<Failure, Account> result = accountService.createAccount(validCommand);
@@ -204,19 +185,6 @@ class AccountServiceTest {
             assertThat(result.get()).isEqualTo(testAccount);
         }
 
-        @Test
-        @DisplayName("Should get account by username")
-        void shouldGetAccountByUsername() {
-            // Given
-            when(accountPort.findAccountByUsername("testuser")).thenReturn(Either.right(testAccount));
-
-            // When
-            Either<Failure, Account> result = accountService.getAccountByUsername("testuser");
-
-            // Then
-            assertThat(result.isRight()).isTrue();
-            assertThat(result.get()).isEqualTo(testAccount);
-        }
     }
 
     @Nested
@@ -227,12 +195,16 @@ class AccountServiceTest {
         @DisplayName("Should update account profile")
         void shouldUpdateAccountProfile() {
             // Given
-            UpdateAccountUseCase.UpdateAccountCommand command = new UpdateAccountUseCase.UpdateAccountCommand(accountId, "New Name", "image.jpg");
+            UpdateAccountUseCase.UpdateAccountCommand command =
+                    new UpdateAccountUseCase.UpdateAccountCommand(accountId, "John", "Doe", "image.jpg");
             Account updatedAccount = testAccount;
             updatedAccount.toBuilder()
-                            .fullName("New Name")
+                            .firstName("Jane")
+                            .lastName("Doe")
                             .profileImageUrl("image.jpg")
                             .build();
+            when(accountValidator.validate(any(UpdateAccountUseCase.UpdateAccountCommand.class)))
+                    .thenReturn(Validation.valid(command));
 
             when(accountPort.findAccountById(accountId)).thenReturn(Either.right(testAccount));
             when(accountPort.saveAccount(any(Account.class))).thenReturn(Either.right(updatedAccount));
@@ -247,7 +219,7 @@ class AccountServiceTest {
             verify(accountPort).saveAccount(accountCaptor.capture());
 
             Account capturedAccount = accountCaptor.getValue();
-            assertThat(capturedAccount.getFullName()).isEqualTo("New Name");
+            assertThat(capturedAccount.getFirstName()).isEqualTo("John");
             assertThat(capturedAccount.getProfileImageUrl()).isEqualTo("image.jpg");
         }
 

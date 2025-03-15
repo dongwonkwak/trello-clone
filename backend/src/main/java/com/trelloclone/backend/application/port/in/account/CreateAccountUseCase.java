@@ -6,6 +6,7 @@ import io.vavr.control.Either;
 import lombok.Builder;
 
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 public interface CreateAccountUseCase {
 
@@ -13,19 +14,33 @@ public interface CreateAccountUseCase {
 
     @Builder
     record CreateAccountCommand(
-            String username,
+            String firstName,
+            String lastName,
             String email,
             String password,
-            String fullName,
             String profileImageUrl) {
 
-        public CreateAccountCommand {
-            requireNonNull(username);
+         public CreateAccountCommand(
+                String firstName,
+                String lastName,
+                String email,
+                String password,
+                String profileImageUrl) {
+            requireNonNull(firstName);
+            requireNonNull(lastName);
             requireNonNull(email);
             requireNonNull(password);
+
+            this.firstName = trim(firstName);
+            this.lastName = trim(lastName);
+            this.email = trim(email);
+            this.password = trim(password);
+            this.profileImageUrl = trim(profileImageUrl);
         }
 
-        public static final String FIELD_USERNAME = "username";
+
+        public static final String FIELD_FIRSTNAME = "firstname";
+        public static final String FIELD_LASTNAME = "lastname";
         public static final String FIELD_EMAIL = "email";
         public static final String FIELD_PASSWORD = "password";
     }

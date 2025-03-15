@@ -27,9 +27,11 @@ public class SignupRequest implements Serializable {
 
   private String email;
 
-  private String username;
-
   private String password;
+
+  private String firstName;
+
+  private String lastName;
 
   public SignupRequest() {
     super();
@@ -38,10 +40,11 @@ public class SignupRequest implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public SignupRequest(String email, String username, String password) {
+  public SignupRequest(String email, String password, String firstName, String lastName) {
     this.email = email;
-    this.username = username;
     this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 
   public SignupRequest email(String email) {
@@ -64,26 +67,6 @@ public class SignupRequest implements Serializable {
     this.email = email;
   }
 
-  public SignupRequest username(String username) {
-    this.username = username;
-    return this;
-  }
-
-  /**
-   * Get username
-   * @return username
-   */
-  @NotNull
-  @Schema(name = "username", example = "jone", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("username")
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
   public SignupRequest password(String password) {
     this.password = password;
     return this;
@@ -104,6 +87,46 @@ public class SignupRequest implements Serializable {
     this.password = password;
   }
 
+  public SignupRequest firstName(String firstName) {
+    this.firstName = firstName;
+    return this;
+  }
+
+  /**
+   * Get firstName
+   * @return firstName
+   */
+  @NotNull
+  @Schema(name = "firstName", example = "jone", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("firstName")
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public SignupRequest lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  /**
+   * Get lastName
+   * @return lastName
+   */
+  @NotNull
+  @Schema(name = "lastName", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("lastName")
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -114,13 +137,14 @@ public class SignupRequest implements Serializable {
     }
     SignupRequest signupRequest = (SignupRequest) o;
     return Objects.equals(this.email, signupRequest.email) &&
-        Objects.equals(this.username, signupRequest.username) &&
-        Objects.equals(this.password, signupRequest.password);
+        Objects.equals(this.password, signupRequest.password) &&
+        Objects.equals(this.firstName, signupRequest.firstName) &&
+        Objects.equals(this.lastName, signupRequest.lastName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, username, password);
+    return Objects.hash(email, password, firstName, lastName);
   }
 
   @Override
@@ -128,8 +152,9 @@ public class SignupRequest implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SignupRequest {\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append("*").append("\n");
+    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
+    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

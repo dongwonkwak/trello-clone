@@ -1,7 +1,6 @@
 package com.trelloclone.backend.adapter.out.persistence.mapper;
 
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
-import com.trelloclone.backend.adapter.out.persistence.mapper.AccountPersistenceMapper;
 import com.trelloclone.backend.domain.model.Account;
 import com.trelloclone.backend.domain.model.Id;
 import org.junit.jupiter.api.DisplayName;
@@ -24,10 +23,10 @@ class AccountPersistenceMapperTest {
         // Given
         AccountEntity entity = new AccountEntity();
         entity.setId(id);
-        entity.setUsername("testuser");
+        entity.setFirstName("john");
+        entity.setLastName("doe");
         entity.setEmail("test@example.com");
         entity.setPassword("password123");
-        entity.setFullName("Test User");
         entity.setProfileImage("profile.jpg");
         entity.setEmailVerified(true);
         entity.setCreatedAt(now);
@@ -38,10 +37,10 @@ class AccountPersistenceMapperTest {
 
         // Then
         assertThat(account.getId().id()).isEqualTo(id);
-        assertThat(account.getUsername()).isEqualTo("testuser");
+        assertThat(account.getFirstName()).isEqualTo("john");
+        assertThat(account.getLastName()).isEqualTo("doe");
         assertThat(account.getEmail()).isEqualTo("test@example.com");
         assertThat(account.getPassword()).isEqualTo("password123");
-        assertThat(account.getFullName()).isEqualTo("Test User");
         assertThat(account.getProfileImageUrl()).isEqualTo("profile.jpg");
         assertThat(account.isEmailVerified()).isTrue();
         assertThat(account.getCreatedAt()).isEqualTo(now);
@@ -54,10 +53,10 @@ class AccountPersistenceMapperTest {
         // Given
         Account account = Account.builder()
                 .id(Id.of(id))
-                .username("testuser")
+                .firstName("john")
+                .lastName("doe")
                 .email("test@example.com")
                 .password("password123")
-                .fullName("Test User")
                 .profileImageUrl("profile.jpg")
                 .emailVerified(true)
                 .createdAt(now)
@@ -69,10 +68,10 @@ class AccountPersistenceMapperTest {
 
         // Then
         assertThat(entity.getId()).isEqualTo(id);
-        assertThat(entity.getUsername()).isEqualTo("testuser");
+        assertThat(entity.getFirstName()).isEqualTo("john");
+        assertThat(entity.getLastName()).isEqualTo("doe");
         assertThat(entity.getEmail()).isEqualTo("test@example.com");
         assertThat(entity.getPassword()).isEqualTo("password123");
-        assertThat(entity.getFullName()).isEqualTo("Test User");
         assertThat(entity.getProfileImage()).isEqualTo("profile.jpg");
         assertThat(entity.isEmailVerified()).isTrue();
         assertThat(entity.getCreatedAt()).isEqualTo(now);
@@ -85,10 +84,10 @@ class AccountPersistenceMapperTest {
         // Given
         AccountEntity entity = new AccountEntity();
         entity.setId(id);
-        entity.setUsername("testuser");
+        entity.setFirstName("john");
+        entity.setLastName("doe");
         entity.setEmail("test@example.com");
         entity.setPassword("password123");
-        entity.setFullName(null);
         entity.setProfileImage(null);
         entity.setEmailVerified(false);
         entity.setCreatedAt(now);
@@ -99,10 +98,7 @@ class AccountPersistenceMapperTest {
         AccountEntity reconvertedEntity = AccountPersistenceMapper.toEntity(account);
 
         // Then
-        assertThat(account.getFullName()).isNull();
         assertThat(account.getProfileImageUrl()).isNull();
-
-        assertThat(reconvertedEntity.getFullName()).isNull();
         assertThat(reconvertedEntity.getProfileImage()).isNull();
     }
 }

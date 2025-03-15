@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -47,13 +45,11 @@ public class AccountController implements AccountApi {
                             var url = putMeRequest.getProfileImage() != null
                                     ? putMeRequest.getProfileImage().getHref()
                                     : account.getProfileImageUrl();
-                           var fullName = isBlank(putMeRequest.getFullName())
-                                   ? account.getFullName()
-                                   : putMeRequest.getFullName();
 
                             var command = UpdateAccountCommand.builder()
                                     .accountId(account.getId())
-                                    .fullName(fullName)
+                                    .firstName(putMeRequest.getFirstName())
+                                    .lastName(putMeRequest.getLastName())
                                     .profileImageUrl(url)
                                     .build();
                             return updateAccountUseCase.updateAccount(command)

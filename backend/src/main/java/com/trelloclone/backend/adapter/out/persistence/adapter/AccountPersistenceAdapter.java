@@ -48,16 +48,6 @@ public class AccountPersistenceAdapter implements AccountPort {
                         .orElseGet(() -> Either.left(Failure.ofNotFound(ErrorMessageKeys.ACCOUNT_NOT_FOUND))));
     }
 
-    @Override
-    public Either<Failure, Account> findAccountByUsername(String username) {
-        return Try.of(() -> accountRepository.findByUsername(username))
-                .toEither()
-                .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
-                .flatMap(optionalAccount -> optionalAccount
-                        .map(AccountPersistenceMapper::toDomain)
-                        .map(Either::<Failure, Account>right)
-                        .orElseGet(() -> Either.left(Failure.ofNotFound(ErrorMessageKeys.ACCOUNT_NOT_FOUND))));
-    }
 
     @Override
     public void deleteAccount(Id accountId) {
@@ -69,8 +59,4 @@ public class AccountPersistenceAdapter implements AccountPort {
         return accountRepository.existsByEmail(email);
     }
 
-    @Override
-    public boolean existsByUsername(String username) {
-        return accountRepository.existsByUsername(username);
-    }
 }

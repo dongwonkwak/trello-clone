@@ -45,14 +45,13 @@ public class EmailAdapter implements EmailPort {
     }
 
     @Override
-    public Either<Failure, Void> sendAccountActivationEmail(String to, String username, String token, Locale locale) {
+    public Either<Failure, Void> sendAccountActivationEmail(String to, String token, Locale locale) {
         // 템플릿에 전달할 컨텍스트 생성
         Context context = new Context(locale);
-        context.setVariable("username", username);
         context.setVariable("activationLink", baseUrl + "/activate?token=" + token);
 
         // 메시지 리소스에서 다국어 메시지 가져오기
-        context.setVariable("greeting", messageSource.getMessage("email.account.activation.greeting", new Object[]{username}, locale));
+        context.setVariable("greeting", messageSource.getMessage("email.account.activation.greeting", null, locale));
         context.setVariable("message", messageSource.getMessage("email.account.activation.message", null, locale));
         context.setVariable("buttonText", messageSource.getMessage("email.account.activation.button", null, locale));
         context.setVariable("expires", messageSource.getMessage("email.account.activation.expires", null, locale));

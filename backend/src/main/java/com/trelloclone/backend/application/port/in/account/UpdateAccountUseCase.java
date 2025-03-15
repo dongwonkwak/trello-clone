@@ -6,6 +6,9 @@ import com.trelloclone.backend.domain.model.Id;
 import io.vavr.control.Either;
 import lombok.Builder;
 
+import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.StringUtils.trim;
+
 public interface UpdateAccountUseCase {
 
     Either<Failure, Account> updateAccount(UpdateAccountCommand command);
@@ -13,9 +16,21 @@ public interface UpdateAccountUseCase {
     @Builder
     record UpdateAccountCommand(
             Id accountId,
-            String fullName,
+            String firstName,
+            String lastName,
             String profileImageUrl) {
 
+        public UpdateAccountCommand(
+                Id accountId,
+                String firstName,
+                String lastName,
+                String profileImageUrl) {
+            requireNonNull(accountId);
+            this.accountId = accountId;
+            this.firstName = trim(firstName);
+            this.lastName = trim(lastName);
+            this.profileImageUrl = trim(profileImageUrl);
+        }
     }
 
     /**

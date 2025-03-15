@@ -35,7 +35,7 @@ public class AccountActivationController {
                         account -> {
                             // 활성화 성공
                             model.addAttribute("success", true);
-                            model.addAttribute("username", account.getUsername());
+                            model.addAttribute("email", account.getEmail());
                             return "account-activation-result";
                         }
                 );

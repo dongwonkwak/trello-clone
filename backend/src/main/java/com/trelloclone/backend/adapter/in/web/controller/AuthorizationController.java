@@ -23,7 +23,8 @@ public class AuthorizationController implements AuthApi {
     public ResponseEntity<?> signup(SignupRequest signupRequest) {
         var command = CreateAccountUseCase.CreateAccountCommand.builder()
                         .email(signupRequest.getEmail())
-                        .username(signupRequest.getUsername())
+                        .firstName(signupRequest.getFirstName())
+                        .lastName(signupRequest.getLastName())
                         .password(signupRequest.getPassword())
                         .build();
 

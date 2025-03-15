@@ -23,44 +23,44 @@ class AccountValidatorTest {
     }
 
     @Nested
-    @DisplayName("Username validation")
-    class UsernameValidationTests {
+    @DisplayName("Firstname validation")
+    class FirstnameValidationTests {
         @Test
-        @DisplayName("Should validate correct username")
-        void shouldValidateCorrectUsername() {
-            Validation<Failure.FieldViolation, String> result = validator.validateUsername("validUser123");
+        @DisplayName("Should validate correct firstname")
+        void shouldValidateCorrectFirstname() {
+            Validation<Failure.FieldViolation, String> result = validator.validateFirstName("validUser");
 
             assertThat(result.isValid()).isTrue();
-            assertThat(result.get()).isEqualTo("validUser123");
+            assertThat(result.get()).isEqualTo("validUser");
         }
 
         @Test
-        @DisplayName("Should reject empty username")
-        void shouldRejectEmptyUsername() {
-            Validation<Failure.FieldViolation, String> result = validator.validateUsername("");
+        @DisplayName("Should reject empty firstname")
+        void shouldRejectEmptyFirstname() {
+            Validation<Failure.FieldViolation, String> result = validator.validateFirstName("");
 
             assertThat(result.isInvalid()).isTrue();
-            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.USERNAME_EMPTY);
+            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.FIRSTNAME_EMPTY);
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"ab", "abcdefghijklmnopqrstu"})
-        @DisplayName("Should reject username with invalid length")
-        void shouldRejectInvalidLengthUsername(String username) {
-            Validation<Failure.FieldViolation, String> result = validator.validateUsername(username);
+        @ValueSource(strings = {"abcdefghijklmnopqrstuabcdefghijklmnopqrstuabcdefghijklmnopqrstu"})
+        @DisplayName("Should reject firstname with invalid length")
+        void shouldRejectInvalidLengthFirstname(String firstname) {
+            Validation<Failure.FieldViolation, String> result = validator.validateFirstName(firstname);
 
             assertThat(result.isInvalid()).isTrue();
-            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.USERNAME_SIZE);
+            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.FIRSTNAME_SIZE);
         }
 
         @ParameterizedTest
-        @ValueSource(strings = {"user@name", "user-name", "user.name"})
-        @DisplayName("Should reject username with invalid characters")
-        void shouldRejectInvalidCharactersUsername(String username) {
-            Validation<Failure.FieldViolation, String> result = validator.validateUsername(username);
+        @ValueSource(strings = {"first@name", "first-name", "first.name"})
+        @DisplayName("Should reject firstname with invalid characters")
+        void shouldRejectInvalidCharactersFirstname(String firstname) {
+            Validation<Failure.FieldViolation, String> result = validator.validateFirstName(firstname);
 
             assertThat(result.isInvalid()).isTrue();
-            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.USERNAME_PATTERN);
+            assertThat(result.getError().message()).isEqualTo(ValidationMessageKeys.FIRSTNAME_PATTERN);
         }
     }
 
@@ -173,7 +173,8 @@ class AccountValidatorTest {
         @DisplayName("Should validate correct command")
         void shouldValidateCorrectCommand() {
             var command = CreateAccountCommand.builder()
-                    .username("validUser")
+                    .firstName("john")
+                    .lastName("doe")
                     .email("user@example.com")
                     .password("Password123!")
                     .build();
@@ -188,7 +189,8 @@ class AccountValidatorTest {
         @DisplayName("Should collect all validation errors")
         void shouldCollectAllValidationErrors() {
             var command = CreateAccountCommand.builder()
-                    .username("")
+                    .firstName("john")
+                    .lastName("doe")
                     .email("invalid-email")
                     .password("password")
                     .build();
@@ -196,10 +198,8 @@ class AccountValidatorTest {
             Validation<Seq<Failure.FieldViolation>, CreateAccountCommand> result = validator.validate(command);
 
             assertThat(result.isInvalid()).isTrue();
-            assertThat(result.getError().size()).isEqualTo(3);
+            assertThat(result.getError().size()).isEqualTo(2);
 
-            assertThat(result.getError()).anySatisfy(v ->
-                    assertThat(v.message()).isEqualTo(ValidationMessageKeys.USERNAME_EMPTY));
             assertThat(result.getError()).anySatisfy(v ->
                     assertThat(v.message()).isEqualTo(ValidationMessageKeys.EMAIL_INVALID));
             assertThat(result.getError()).anySatisfy(v ->

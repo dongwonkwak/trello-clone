@@ -37,17 +37,18 @@ class AccountPersistenceAdapterTest {
     private final AccountEntity accountEntity = new AccountEntity();
     private final Account account = Account.builder()
             .id(accountId)
-            .username("testuser")
+            .firstName("john")
+            .lastName("doe")
             .email("test@example.com")
             .password("password")
-            .fullName("Test User")
             .build();
 
     @BeforeEach
     void setUp() {
         adapter = new AccountPersistenceAdapter(accountRepository);
         accountEntity.setId(testId);
-        accountEntity.setUsername("testuser");
+        accountEntity.setFirstName("john");
+        accountEntity.setLastName("doe");
         accountEntity.setEmail("test@example.com");
         accountEntity.setPassword("password");
         accountEntity.setCreatedAt(LocalDateTime.now());
@@ -148,20 +149,6 @@ class AccountPersistenceAdapterTest {
             assertThat(result.isRight()).isTrue();
             assertThat(result.get().getEmail()).isEqualTo("test@example.com");
         }
-
-        @Test
-        @DisplayName("Should find account by username successfully")
-        void shouldFindAccountByUsernameSuccessfully() {
-            // Given
-            when(accountRepository.findByUsername("testuser")).thenReturn(Optional.of(accountEntity));
-
-            // When
-            Either<Failure, Account> result = adapter.findAccountByUsername("testuser");
-
-            // Then
-            assertThat(result.isRight()).isTrue();
-            assertThat(result.get().getUsername()).isEqualTo("testuser");
-        }
     }
 
     @Nested
@@ -178,18 +165,6 @@ class AccountPersistenceAdapterTest {
             // When & Then
             assertThat(adapter.existsByEmail("test@example.com")).isTrue();
             assertThat(adapter.existsByEmail("nonexistent@example.com")).isFalse();
-        }
-
-        @Test
-        @DisplayName("Should check if account exists by username")
-        void shouldCheckIfAccountExistsByUsername() {
-            // Given
-            when(accountRepository.existsByUsername("testuser")).thenReturn(true);
-            when(accountRepository.existsByUsername("nonexistent")).thenReturn(false);
-
-            // When & Then
-            assertThat(adapter.existsByUsername("testuser")).isTrue();
-            assertThat(adapter.existsByUsername("nonexistent")).isFalse();
         }
     }
 
