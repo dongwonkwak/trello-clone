@@ -43,10 +43,14 @@ paths:
             schema:
               type: object
               properties:
-                fullName:
+                firstName:
                   type: string
-                  description: 사용자의 전체 이름
-                  example: John Doe
+                  description: 사용자 이름
+                  example: John
+                lastName:
+                  type: string
+                  description: 사용자 성
+                  example: Doe
                 profileImage:
                   $ref: '../components/schemas/Link.yaml#/components/schemas/Link'
       responses:

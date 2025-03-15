@@ -11,17 +11,21 @@ components:
       type: object
       required:
         - email
-        - username
         - password
+        - firstName
+        - lastName
       properties:
         email:
           type: string
           format: email
           example: jonedoe@example.com
-        username:
-          type: string
-          example: jone
         password:
           type: string
           format: password
           example: password
+        firstName:
+          type: string
+          example: jone
+        lastName:
+          type: string
+          example: John Doe
