@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
+    '@vee-validate/nuxt',
   ],
   ssr: false,
   typescript: {

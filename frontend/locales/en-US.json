@@ -8,18 +8,25 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
-    "goHome": "Go Home"
+    "goHome": "Go Home",
+    "email": "Email"
   },
   "auth": {
     "login": "Login",
     "logout": "Logout",
     "signup": "Sign Up",
-    "email": "Email",
+    "signupDescription": "Sign up for Trello Clone",
     "password": "Password",
-    "username": "Username",
     "forgotPassword": "Forgot Password?",
     "resetPassword": "Reset Password",
-    "fullName": "Full Name",
-    "noAccount": "Don't have an account?"
+    "alreadyHaveAccount": "Already have an account?",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "firstNameRequired": "First name is required",
+    "LastNameRequired": "Last name is required",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required"
   }
 }

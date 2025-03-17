@@ -8,18 +8,25 @@
     "delete": "삭제",
     "edit": "편집",
     "create": "만들기",
-    "goHome": "홈으로 돌아가기"
+    "goHome": "홈으로 돌아가기",
+    "email": "이메일"
   },
   "auth": {
     "login": "로그인",
     "logout": "로그아웃",
     "signup": "회원가입",
-    "email": "이메일",
+    "signupDescription": "Trello 클론에 가입하세요",
     "password": "비밀번호",
-    "username": "사용자명",
     "forgotPassword": "비밀번호를 잊으셨나요?",
     "resetPassword": "비밀번호 재설정",
-    "fullName": "이름",
-    "noAccount": "계정이 없으신가요?"
+    "alreadyHaveAccount": "이미 계정이 있으신가요?",
+    "firstName": "이름",
+    "lastName": "성",
+    "enterEmail": "이메일 주소를 입력하세요",
+    "enterPassword": "비밀번호를 입력하세요",
+    "firstNameRequired": "이름을 입력하세요",
+    "LastNameRequired": "성을 입력하세요",
+    "emailRequired": "이메일 주소를 입력하세요",
+    "passwordRequired": "비밀번호를 입력하세요"
   }
 }

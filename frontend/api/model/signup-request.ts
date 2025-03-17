@@ -31,12 +31,18 @@ export interface SignupRequest {
      * @type {string}
      * @memberof SignupRequest
      */
-    'username': string;
+    'password': string;
     /**
      * 
      * @type {string}
      * @memberof SignupRequest
      */
-    'password': string;
+    'firstname'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SignupRequest
+     */
+    'lastname'?: string;
 }
 

@@ -24,11 +24,17 @@ import type { Link } from './link';
  */
 export interface PutMeRequest {
     /**
-     * 사용자의 전체 이름
+     * 사용자 이름
      * @type {string}
      * @memberof PutMeRequest
      */
-    'fullName'?: string;
+    'firstname'?: string;
+    /**
+     * 사용자 성
+     * @type {string}
+     * @memberof PutMeRequest
+     */
+    'lastname'?: string;
     /**
      * 
      * @type {Link}

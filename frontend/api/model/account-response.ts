@@ -40,13 +40,13 @@ export interface AccountResponse {
      * @type {string}
      * @memberof AccountResponse
      */
-    'username': string;
+    'firstname': string;
     /**
      * 
      * @type {string}
      * @memberof AccountResponse
      */
-    'fullName'?: string;
+    'lastname': string;
     /**
      * 
      * @type {Link}
