@@ -19,12 +19,12 @@ public class AuthorizationController implements AuthApi {
     private final ApiFailureHandler apiFailureHandler;
 
     @Override
-    @PostMapping("/v1/signup")
+    @PostMapping("/v1/auth/signup")
     public ResponseEntity<?> signup(SignupRequest signupRequest) {
         var command = CreateAccountUseCase.CreateAccountCommand.builder()
                         .email(signupRequest.getEmail())
-                        .firstName(signupRequest.getFirstName())
-                        .lastName(signupRequest.getLastName())
+                        .firstName(signupRequest.getFirstname())
+                        .lastName(signupRequest.getLastname())
                         .password(signupRequest.getPassword())
                         .build();
 

@@ -36,9 +36,9 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
               redirect-uris:
-                - "${trello-client.url}/authorized"
+                - "${application.frontend-url}/authorized"
               post-logout-redirect-uris:
-                - "${trello-client.url}/logout"
+                - "${application.frontend-url}/logout"
               scopes:
                 - "openid"
                 - "profile"
@@ -51,3 +51,7 @@ spring:
 application:
   base-url: http://localhost:8080
   frontend-url: http://localhost:3000
+
+logging:
+  level:
+    org.springframework.security: trace

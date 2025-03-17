@@ -48,8 +48,8 @@ public class AccountController implements AccountApi {
 
                             var command = UpdateAccountCommand.builder()
                                     .accountId(account.getId())
-                                    .firstName(putMeRequest.getFirstName())
-                                    .lastName(putMeRequest.getLastName())
+                                    .firstName(putMeRequest.getFirstname())
+                                    .lastName(putMeRequest.getLastname())
                                     .profileImageUrl(url)
                                     .build();
                             return updateAccountUseCase.updateAccount(command)

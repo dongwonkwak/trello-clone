@@ -38,8 +38,8 @@ class AuthorizationControllerTest {
     void setUp() {
         signupRequest = new SignupRequest();
         signupRequest.setEmail("test@example.com");
-        signupRequest.setFirstName("john");
-        signupRequest.setLastName("doe");
+        signupRequest.setFirstname("john");
+        signupRequest.setLastname("doe");
         signupRequest.setPassword("Password1!");
     }
 

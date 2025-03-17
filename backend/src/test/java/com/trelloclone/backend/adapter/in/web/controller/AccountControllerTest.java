@@ -79,8 +79,8 @@ class AccountControllerTest {
         AccountResponse responseBody = (AccountResponse) response.getBody();
         assert responseBody != null;
         assertThat(responseBody.getEmail()).isEqualTo(testEmail);
-        assertThat(responseBody.getFirstName()).isEqualTo(testFirstname);
-        assertThat(responseBody.getLastName()).isEqualTo(testLastname);
+        assertThat(responseBody.getFirstname()).isEqualTo(testFirstname);
+        assertThat(responseBody.getLastname()).isEqualTo(testLastname);
         verify(getAccountUseCase).getAccountByEmail(testEmail);
     }
 
@@ -109,7 +109,7 @@ class AccountControllerTest {
         Account account = createTestAccount();
         Account updatedAccount = account.toBuilder().firstName("Jane").build();
         PutMeRequest request = new PutMeRequest();
-        request.setFirstName("Jane");
+        request.setFirstname("Jane");
         Link profileImage = new Link();
         profileImage.setHref("https://example.com/newimage.jpg");
         request.setProfileImage(profileImage);
@@ -136,7 +136,7 @@ class AccountControllerTest {
         when(getAccountUseCase.getAccountByEmail(testEmail)).thenReturn(Either.right(account));
 
         PutMeRequest request = new PutMeRequest();
-        request.setFirstName("Jane");
+        request.setFirstname("Jane");
         var profileImage = new Link();
         profileImage.setHref("https://example.com/new.jpg");
         request.setProfileImage(profileImage);
@@ -157,7 +157,7 @@ class AccountControllerTest {
         assertThat(response.getBody()).isInstanceOf(AccountResponse.class);
         AccountResponse responseBody = (AccountResponse) response.getBody();
         assert responseBody != null;
-        assertThat(responseBody.getFirstName()).isEqualTo("Jane");
+        assertThat(responseBody.getFirstname()).isEqualTo("Jane");
 
         ArgumentCaptor<UpdateAccountCommand> commandCaptor = ArgumentCaptor.forClass(UpdateAccountCommand.class);
         verify(updateAccountUseCase).updateAccount(commandCaptor.capture());
@@ -174,7 +174,7 @@ class AccountControllerTest {
         when(getAccountUseCase.getAccountByEmail(testEmail)).thenReturn(Either.right(account));
 
         PutMeRequest request = new PutMeRequest();
-        request.setFirstName("Jane");
+        request.setFirstname("Jane");
         // No profile image provided
 
         Account updatedAccount = account.toBuilder()
@@ -191,7 +191,7 @@ class AccountControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         AccountResponse responseBody = (AccountResponse) response.getBody();
         assert responseBody != null;
-        assertThat(responseBody.getFirstName()).isEqualTo("Jane");
+        assertThat(responseBody.getFirstname()).isEqualTo("Jane");
 
         ArgumentCaptor<UpdateAccountCommand> commandCaptor = ArgumentCaptor.forClass(UpdateAccountCommand.class);
         verify(updateAccountUseCase).updateAccount(commandCaptor.capture());
@@ -229,7 +229,7 @@ class AccountControllerTest {
         when(getAccountUseCase.getAccountByEmail(testEmail)).thenReturn(Either.right(account));
 
         PutMeRequest request = new PutMeRequest();
-        request.firstName("Jain");
+        request.firstname("Jain");
 
         Failure failure = Failure.ofValidation("Validation error",
                 Collections.singletonList(Failure.FieldViolation.builder()

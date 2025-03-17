@@ -33,9 +33,9 @@ public class AccountResponse implements Serializable {
 
   private String email;
 
-  private String firstName;
+  private String firstname;
 
-  private String lastName;
+  private String lastname;
 
   private @Nullable Link profileImage;
 
@@ -52,11 +52,11 @@ public class AccountResponse implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public AccountResponse(UUID id, String email, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public AccountResponse(UUID id, String email, String firstname, String lastname, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -101,44 +101,44 @@ public class AccountResponse implements Serializable {
     this.email = email;
   }
 
-  public AccountResponse firstName(String firstName) {
-    this.firstName = firstName;
+  public AccountResponse firstname(String firstname) {
+    this.firstname = firstname;
     return this;
   }
 
   /**
-   * Get firstName
-   * @return firstName
+   * Get firstname
+   * @return firstname
    */
   @NotNull
-  @Schema(name = "firstName", example = "jone", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("firstName")
-  public String getFirstName() {
-    return firstName;
+  @Schema(name = "firstname", example = "jone", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("firstname")
+  public String getFirstname() {
+    return firstname;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
-  public AccountResponse lastName(String lastName) {
-    this.lastName = lastName;
+  public AccountResponse lastname(String lastname) {
+    this.lastname = lastname;
     return this;
   }
 
   /**
-   * Get lastName
-   * @return lastName
+   * Get lastname
+   * @return lastname
    */
   @NotNull
-  @Schema(name = "lastName", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("lastName")
-  public String getLastName() {
-    return lastName;
+  @Schema(name = "lastname", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("lastname")
+  public String getLastname() {
+    return lastname;
   }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
   public AccountResponse profileImage(Link profileImage) {
@@ -212,8 +212,8 @@ public class AccountResponse implements Serializable {
     AccountResponse accountResponse = (AccountResponse) o;
     return Objects.equals(this.id, accountResponse.id) &&
         Objects.equals(this.email, accountResponse.email) &&
-        Objects.equals(this.firstName, accountResponse.firstName) &&
-        Objects.equals(this.lastName, accountResponse.lastName) &&
+        Objects.equals(this.firstname, accountResponse.firstname) &&
+        Objects.equals(this.lastname, accountResponse.lastname) &&
         Objects.equals(this.profileImage, accountResponse.profileImage) &&
         Objects.equals(this.createdAt, accountResponse.createdAt) &&
         Objects.equals(this.updatedAt, accountResponse.updatedAt);
@@ -221,7 +221,7 @@ public class AccountResponse implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, email, firstName, lastName, profileImage, createdAt, updatedAt);
+    return Objects.hash(id, email, firstname, lastname, profileImage, createdAt, updatedAt);
   }
 
   @Override
@@ -230,8 +230,8 @@ public class AccountResponse implements Serializable {
     sb.append("class AccountResponse {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
-    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
+    sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    profileImage: ").append(toIndentedString(profileImage)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");

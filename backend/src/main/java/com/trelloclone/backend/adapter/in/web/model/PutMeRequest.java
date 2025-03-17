@@ -27,50 +27,50 @@ public class PutMeRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private @Nullable String firstName;
+  private @Nullable String firstname;
 
-  private @Nullable String lastName;
+  private @Nullable String lastname;
 
   private @Nullable Link profileImage;
 
-  public PutMeRequest firstName(String firstName) {
-    this.firstName = firstName;
+  public PutMeRequest firstname(String firstname) {
+    this.firstname = firstname;
     return this;
   }
 
   /**
    * 사용자 이름
-   * @return firstName
+   * @return firstname
    */
   
-  @Schema(name = "firstName", example = "John", description = "사용자 이름", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("firstName")
-  public String getFirstName() {
-    return firstName;
+  @Schema(name = "firstname", example = "John", description = "사용자 이름", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("firstname")
+  public String getFirstname() {
+    return firstname;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
-  public PutMeRequest lastName(String lastName) {
-    this.lastName = lastName;
+  public PutMeRequest lastname(String lastname) {
+    this.lastname = lastname;
     return this;
   }
 
   /**
    * 사용자 성
-   * @return lastName
+   * @return lastname
    */
   
-  @Schema(name = "lastName", example = "Doe", description = "사용자 성", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("lastName")
-  public String getLastName() {
-    return lastName;
+  @Schema(name = "lastname", example = "Doe", description = "사용자 성", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastname")
+  public String getLastname() {
+    return lastname;
   }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
   public PutMeRequest profileImage(Link profileImage) {
@@ -102,22 +102,22 @@ public class PutMeRequest implements Serializable {
       return false;
     }
     PutMeRequest putMeRequest = (PutMeRequest) o;
-    return Objects.equals(this.firstName, putMeRequest.firstName) &&
-        Objects.equals(this.lastName, putMeRequest.lastName) &&
+    return Objects.equals(this.firstname, putMeRequest.firstname) &&
+        Objects.equals(this.lastname, putMeRequest.lastname) &&
         Objects.equals(this.profileImage, putMeRequest.profileImage);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, profileImage);
+    return Objects.hash(firstname, lastname, profileImage);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PutMeRequest {\n");
-    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
-    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
+    sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    profileImage: ").append(toIndentedString(profileImage)).append("\n");
     sb.append("}");
     return sb.toString();

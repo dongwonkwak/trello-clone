@@ -2,6 +2,7 @@ package com.trelloclone.backend.adapter.in.web.common;
 
 import com.trelloclone.backend.adapter.in.web.model.Error;
 import com.trelloclone.backend.adapter.in.web.model.ErrorErrorsInner;
+import com.trelloclone.backend.adapter.in.web.model.ErrorErrorsInnerSource;
 import com.trelloclone.backend.common.error.Failure;
 import com.trelloclone.backend.infrastructure.MessageGetter;
 import lombok.RequiredArgsConstructor;
@@ -95,6 +96,9 @@ public final class ApiFailureHandler {
                 .map(violation -> new ErrorErrorsInner()
                         .status(UNPROCESSABLE_ENTITY.value())
                         .title(messageGetter.getMessage(violation.message(), violation.args()))
+                        .source(new ErrorErrorsInnerSource()
+                                .pointer(violation.field())
+                                .parameter(violation.rejectedValue().toString()))
                 ).toList();
     }
 

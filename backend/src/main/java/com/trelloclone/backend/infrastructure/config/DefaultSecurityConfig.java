@@ -3,6 +3,7 @@ package com.trelloclone.backend.infrastructure.config;
 import com.trelloclone.backend.infrastructure.security.CustomAuthenticationFailureHandler;
 import com.trelloclone.backend.infrastructure.security.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class DefaultSecurityConfig {
 
     private final CustomAuthenticationProvider authenticationProvider;
@@ -30,22 +32,21 @@ public class DefaultSecurityConfig {
 
     private static final RequestMatcher[] PUBLIC_URLS = new RequestMatcher[] {
             // 회원 가입,
-            new AntPathRequestMatcher("/auth/signup", "POST"),
+            new AntPathRequestMatcher("/v1/auth/signup", "POST"),
             // 계정 활성화 링크
             new AntPathRequestMatcher("/activate", "GET"),
             // 계정 활성화 재전송
             new AntPathRequestMatcher("/resend-activation"),
             // 계정 활성화 재전송 성공
             new AntPathRequestMatcher("/resend-activation-success", "GET"),
-            // 회원 가입
-            new AntPathRequestMatcher("/v1/signup", "POST"),
     };
 
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(Customizer.withDefaults())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(PUBLIC_URLS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_URLS).permitAll()
                         .anyRequest().authenticated())
@@ -71,6 +72,7 @@ public class DefaultSecurityConfig {
         cors.addAllowedOrigin(frontendUrl);
         cors.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", cors);
+        log.info("Frontend URL: {}", frontendUrl);
         return source;
     }
 }

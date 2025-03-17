@@ -43,12 +43,12 @@ public final class AccountValidator {
                             .build());
         }
 
-        if (firstName.length() < 2 || firstName.length() > 50) {
+        if (firstName.isEmpty() || firstName.length() > 50) {
             return Invalid(
                     FieldViolation.builder()
                             .field(CreateAccountCommand.FIELD_FIRSTNAME)
                             .message(ValidationMessageKeys.FIRSTNAME_SIZE)
-                            .args(new Object[]{2, 50})
+                            .args(new Object[]{1, 50})
                             .rejectedValue(firstName)
                             .build());
         }
@@ -74,12 +74,12 @@ public final class AccountValidator {
                             .build());
         }
 
-        if (lastName.length() < 2 || lastName.length() > 50) {
+        if (lastName.isEmpty() || lastName.length() > 50) {
             return Invalid(
                     FieldViolation.builder()
                             .field(CreateAccountCommand.FIELD_LASTNAME)
                             .message(ValidationMessageKeys.LASTNAME_SIZE)
-                            .args(new Object[]{2, 50})
+                            .args(new Object[]{1, 50})
                             .rejectedValue(lastName)
                             .build());
         }

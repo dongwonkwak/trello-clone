@@ -14,8 +14,8 @@ public class AccountMapper {
         return new AccountResponse()
                 .id(account.getId().id())
                 .email(account.getEmail())
-                .firstName(account.getFirstName())
-                .lastName(account.getLastName())
+                .firstname(account.getFirstName())
+                .lastname(account.getLastName())
                 .profileImage(new Link(account.getProfileImageUrl()))
                 .createdAt(account.getCreatedAt())
                 .updatedAt(account.getUpdatedAt());
