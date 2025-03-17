@@ -43,11 +43,11 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                firstname:
                   type: string
                   description: 사용자 이름
                   example: John
-                lastName:
+                lastname:
                   type: string
                   description: 사용자 성
                   example: Doe

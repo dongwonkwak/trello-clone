@@ -23,9 +23,9 @@ components:
           type: string
           format: password
           example: password
-        firstName:
+        firstname:
           type: string
           example: jone
-        lastName:
+        lastname:
           type: string
           example: John Doe

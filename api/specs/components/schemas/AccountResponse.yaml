@@ -12,8 +12,8 @@ components:
       required:
         - id
         - email
-        - firstName
-        - lastName
+        - firstname
+        - lastname
         - createdAt
         - updatedAt
       properties:
@@ -25,10 +25,10 @@ components:
           type: string
           format: email
           example: jonedoe@example.com
-        firstName:
+        firstname:
           type: string
           example: jone
-        lastName:
+        lastname:
           type: string
           example: John Doe
         profileImage:
