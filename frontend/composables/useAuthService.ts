@@ -23,19 +23,20 @@ export const useAuthService = () => {
     fetchRequestCredentials: 'include'
   }
 
+  console.log(settings);
+
   const authService = new AuthService(settings);
-  authService.events().addUserLoaded((user) => {
+  authService.userLoaded((user) => {
     console.log("[AuthService] user loaded");
     store.setUser(user);
     if (user?.url_state) {
       window.location.href = user?.url_state;
     }
-  })
-
-  authService.events().addUserUnloaded(() => {
+  });
+  authService.userUnloaded(() => {
     console.log("[AuthService] user unloaded");
     store.setUser(null);
-  })
+  });
 
   return authService;
 }

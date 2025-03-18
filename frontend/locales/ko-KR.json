@@ -11,6 +11,9 @@
     "goHome": "홈으로 돌아가기",
     "email": "이메일"
   },
+  "home": {
+
+  },
   "auth": {
     "login": "로그인",
     "logout": "로그아웃",
@@ -25,8 +28,11 @@
     "enterEmail": "이메일 주소를 입력하세요",
     "enterPassword": "비밀번호를 입력하세요",
     "firstNameRequired": "이름을 입력하세요",
-    "LastNameRequired": "성을 입력하세요",
+    "lastNameRequired": "성을 입력하세요",
     "emailRequired": "이메일 주소를 입력하세요",
-    "passwordRequired": "비밀번호를 입력하세요"
+    "passwordRequired": "비밀번호를 입력하세요",
+    "signupSuccessTitle": "회원가입이 되었습니다",
+    "signupSuccessMessage": "회원가입이 성공적으로 되었습니다. 이메일을 확인하세요",
+    "signupErrorMessage": "회원가입 중 오류가 발생했습니다. 다시 시도하세요"
   }
 }

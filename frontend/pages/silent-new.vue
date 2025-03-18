@@ -1,19 +1,20 @@
-<template>
-
-</template>
-
 <script setup lang="ts">
+
 import {useAuthService} from "~/composables/useAuthService";
 
-console.log("login page");
 const authService = useAuthService();
 
 onMounted(async () => {
   try {
-    await authService.login();
+    console.log('silent renew')
+    await authService.silentRenew();
   } catch(e) {
-    console.error(e);
+    console.error('[silent renew] ', e);
   }
 })
 
 </script>
+
+<template>
+
+</template>

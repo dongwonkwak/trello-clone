@@ -11,6 +11,9 @@
     "goHome": "Go Home",
     "email": "Email"
   },
+  "home": {
+
+  },
   "auth": {
     "login": "Login",
     "logout": "Logout",
@@ -25,8 +28,11 @@
     "enterEmail": "Enter your email",
     "enterPassword": "Enter your password",
     "firstNameRequired": "First name is required",
-    "LastNameRequired": "Last name is required",
+    "lastNameRequired": "Last name is required",
     "emailRequired": "Email is required",
-    "passwordRequired": "Password is required"
+    "passwordRequired": "Password is required",
+    "signupSuccessTitle": "Sign Up Success",
+    "signupSuccessMessage": "You have successfully signed up. Check your email",
+    "signupErrorMessage": "An error occurred while signing up. Please try again"
   }
 }

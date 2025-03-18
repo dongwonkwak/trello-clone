@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         dir: 'ltr',
       }
     ],
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     lazy: true,
     langDir: 'locales/',
     vueI18n: 'i18n.config.ts',

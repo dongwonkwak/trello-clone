@@ -115,6 +115,22 @@
         </p>
       </div>
     </form>
+
+    <!-- Use the modals -->
+    <SuccessModal
+      v-if="showSuccessModal"
+      :title="t('auth.signupSuccessTitle')"
+      :message="t('auth.signupSuccessMessage')"
+      :button-text="t('common.goHome')"
+      @action="goToHome"
+    />
+    <ErrorModal
+      v-if="showErrorModal"
+      :title="t('common.error')"
+      :message="t('auth.signupErrorMessage')"
+      :button-text="t('common.ok')"
+      @action=""
+    />
   </div>
 </template>
 
@@ -123,13 +139,21 @@ import { ref } from 'vue';
 import { useField, useForm } from "vee-validate";
 import {useApiClient} from "~/composables/useApiClient";
 import type {ModelError, SignupRequest} from "~/api";
+import SuccessModal from "~/components/ui/SuccessModal.vue";
+import ErrorModal from "~/components/ui/ErrorModal.vue";
 const { t } = useI18n();
-
+const showSuccessModal = ref(false);
+const showErrorModal = ref(false);
 
 const showPassword = ref(false);
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
+};
+
+const goToHome = () => {
+  showSuccessModal.value = false;
+  navigateTo('/');
 };
 
 const { handleSubmit, setFieldError } = useForm({

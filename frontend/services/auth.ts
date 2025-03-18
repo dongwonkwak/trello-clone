@@ -2,7 +2,7 @@ import {
   UserManager,
   type UserManagerSettings,
   type SigninRedirectArgs,
-  Log, User, UserManagerEvents
+  Log, User
 } from "oidc-client-ts";
 
 if (process.env.NODE_ENV === 'development') {
@@ -66,8 +66,11 @@ export class AuthService {
       return null;
     }
   }
+  public userLoaded = (callback: (user: User) => void): void => {
+    this.userManager.events.addUserLoaded(callback);
+  }
 
-  public events = (): UserManagerEvents => {
-    return this.userManager.events;
+  public userUnloaded = (callback: () => void): void => {
+    this.userManager.events.addUserUnloaded(callback);
   }
 }
