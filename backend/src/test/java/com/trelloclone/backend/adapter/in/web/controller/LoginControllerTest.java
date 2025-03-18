@@ -33,7 +33,6 @@ class LoginControllerTest {
 
         // Then
         assertThat(viewName).isEqualTo("login");
-        verifyNoInteractions(model);
         verifyNoInteractions(session);
     }
 

@@ -29,9 +29,9 @@ public class SignupRequest implements Serializable {
 
   private String password;
 
-  private @Nullable String firstname;
+  private String firstname;
 
-  private @Nullable String lastname;
+  private String lastname;
 
   public SignupRequest() {
     super();
@@ -40,9 +40,11 @@ public class SignupRequest implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public SignupRequest(String email, String password) {
+  public SignupRequest(String email, String password, String firstname, String lastname) {
     this.email = email;
     this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
   }
 
   public SignupRequest email(String email) {
@@ -94,8 +96,8 @@ public class SignupRequest implements Serializable {
    * Get firstname
    * @return firstname
    */
-  
-  @Schema(name = "firstname", example = "jone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull
+  @Schema(name = "firstname", example = "jone", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("firstname")
   public String getFirstname() {
     return firstname;
@@ -114,8 +116,8 @@ public class SignupRequest implements Serializable {
    * Get lastname
    * @return lastname
    */
-  
-  @Schema(name = "lastname", example = "John Doe", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull
+  @Schema(name = "lastname", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("lastname")
   public String getLastname() {
     return lastname;

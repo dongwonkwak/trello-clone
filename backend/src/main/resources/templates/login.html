@@ -96,7 +96,7 @@
         <button type="submit" class="submit-btn" th:text="#{login.submit}">Login</button>
     </form>
     <div class="links">
-        <a th:href="@{/v1/signup}" th:text="#{login.signup.link}">Don't have an account? Sign up</a>
+        <a th:href="${frontendUrl} + '/signup'" th:text="#{login.signup.link}">Don't have an account? Sign up</a>
         <a th:href="@{/forgot-password}" th:text="#{login.forgotPassword.link}">Forgot Password?</a>
     </div>
 </div>
