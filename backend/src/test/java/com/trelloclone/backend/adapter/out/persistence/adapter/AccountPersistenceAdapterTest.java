@@ -1,6 +1,5 @@
 package com.trelloclone.backend.adapter.out.persistence.adapter;
 
-import com.trelloclone.backend.adapter.out.persistence.adapter.AccountPersistenceAdapter;
 import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
 import com.trelloclone.backend.adapter.out.persistence.repository.AccountRepository;
 import com.trelloclone.backend.common.error.Failure;

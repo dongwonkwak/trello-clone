@@ -80,12 +80,12 @@ public class AccountService implements
                                         .build();
                                 eventPublisher.publishEvent(event);
                                 return savedAccount;
+                            })
+                            .mapLeft(failure -> {
+                                log.error("Failed to generate token: {}", failure.message());
+                                return failure;
                             });
                     return savedAccount;
-                })
-                .mapLeft(failure -> {
-                    log.error("Failed to generate token: {}", failure.message());
-                    return failure;
                 });
     }
 

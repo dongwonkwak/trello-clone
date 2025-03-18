@@ -62,7 +62,7 @@
         <p class="message" th:text="#{account.activation.success.message(${email})}">
             계정이 성공적으로 활성화되었습니다.
         </p>
-        <a href="${frontendUrl} + '/login'" class="button" th:text="#{account.activation.login.button}">로그인하기</a>
+        <a th:href="${frontendUrl} + '/login'" class="button" th:text="#{account.activation.login.button}">로그인하기</a>
     </div>
 
     <!-- 실패 시 -->

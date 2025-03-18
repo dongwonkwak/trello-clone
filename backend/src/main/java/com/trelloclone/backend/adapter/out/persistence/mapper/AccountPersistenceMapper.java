@@ -26,15 +26,13 @@ public class AccountPersistenceMapper {
 
     public static AccountEntity toEntity(Account account) {
         AccountEntity entity = new AccountEntity();
-        entity.setId(account.getId().id());
         entity.setFirstName(account.getFirstName());
         entity.setLastName(account.getLastName());
         entity.setEmail(account.getEmail());
         entity.setPassword(account.getPassword());
         entity.setProfileImage(account.getProfileImageUrl());
         entity.setEmailVerified(account.isEmailVerified());
-        entity.setCreatedAt(account.getCreatedAt());
-        entity.setUpdatedAt(account.getUpdatedAt());
+
         return entity;
     }
 }

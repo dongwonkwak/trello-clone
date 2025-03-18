@@ -74,8 +74,6 @@ class AccountPersistenceMapperTest {
         assertThat(entity.getPassword()).isEqualTo("password123");
         assertThat(entity.getProfileImage()).isEqualTo("profile.jpg");
         assertThat(entity.isEmailVerified()).isTrue();
-        assertThat(entity.getCreatedAt()).isEqualTo(now);
-        assertThat(entity.getUpdatedAt()).isEqualTo(updated);
     }
 
     @Test

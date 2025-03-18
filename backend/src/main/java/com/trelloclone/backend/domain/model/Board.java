@@ -10,18 +10,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Board {
 
-    @Builder.Default
-    private final Id id = Id.newId();
+    private final Id id;
     private final String title;
     private final String description;
     private final boolean isPublic;
     private final String backgroundColor;
     private final Account owner;
-
-    @Builder.Default
-    private final LocalDateTime createdAt = LocalDateTime.now();
-    @Builder.Default
-    private final LocalDateTime updatedAt = LocalDateTime.now();
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     public BoardBuilder toBuilder() {
         return new BoardBuilder()
@@ -32,7 +28,7 @@ public class Board {
                 .backgroundColor(this.backgroundColor)
                 .owner(this.owner)
                 .createdAt(this.createdAt)
-                .updatedAt(LocalDateTime.now());
+                .updatedAt(this.updatedAt);
     }
 
     public static BoardBuilder builder() {

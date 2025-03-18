@@ -10,17 +10,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
 
-    @Builder.Default
-    private final Id id = Id.newId();
+    private final Id id;
     private final String email;
     private final String password;
     private final String firstName;
     private final String lastName;
     private final String profileImageUrl;
-    @Builder.Default
-    private final LocalDateTime createdAt = LocalDateTime.now();
-    @Builder.Default
-    private final LocalDateTime updatedAt = LocalDateTime.now();
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     @Builder.Default
     private boolean emailVerified = false;
@@ -35,7 +32,7 @@ public class Account {
                 .profileImageUrl(this.profileImageUrl)
                 .emailVerified(this.emailVerified)
                 .createdAt(this.createdAt)
-                .updatedAt(LocalDateTime.now());
+                .updatedAt(this.updatedAt);
     }
 
     public static AccountBuilder builder() {

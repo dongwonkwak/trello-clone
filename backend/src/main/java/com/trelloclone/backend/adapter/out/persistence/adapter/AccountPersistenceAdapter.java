@@ -1,5 +1,6 @@
 package com.trelloclone.backend.adapter.out.persistence.adapter;
 
+import com.trelloclone.backend.adapter.out.persistence.entity.AccountEntity;
 import com.trelloclone.backend.adapter.out.persistence.mapper.AccountPersistenceMapper;
 import com.trelloclone.backend.adapter.out.persistence.repository.AccountRepository;
 import com.trelloclone.backend.application.port.out.account.AccountPort;
@@ -20,10 +21,33 @@ public class AccountPersistenceAdapter implements AccountPort {
 
     @Override
     public Either<Failure, Account> saveAccount(Account account) {
-        return Try.of(() -> accountRepository.save(AccountPersistenceMapper.toEntity(account)))
+        // 만약 accountRepository에 AccountEntity가 이미 있다면. 그걸 가져와서 값을 업데이트 하고 저장한다.
+        // 없다면 새로운 AccountEntity를 만들어서 저장한다.
+        return Try.of(() -> {
+            if (account.getId() != null) {
+                // Try to find existing account
+                return accountRepository.findById(account.getId().id())
+                        .map(existingEntity -> {
+                            updateEntityFromDomain(existingEntity, account);
+                            return accountRepository.save(existingEntity);
+                        })
+                        .orElseGet(() -> accountRepository.save(AccountPersistenceMapper.toEntity(account)));
+            }
+            // Create new account if ID does not exist
+            return accountRepository.save(AccountPersistenceMapper.toEntity(account));
+        })
                 .toEither()
                 .mapLeft(ex -> Failure.ofInternalServerError(ex.getMessage()))
                 .map(AccountPersistenceMapper::toDomain);
+    }
+
+    private void updateEntityFromDomain(AccountEntity entity, Account account) {
+        entity.setFirstName(account.getFirstName());
+        entity.setLastName(account.getLastName());
+        entity.setEmail(account.getEmail());
+        entity.setPassword(account.getPassword());
+        entity.setProfileImage(account.getProfileImageUrl());
+        entity.setEmailVerified(account.isEmailVerified());
     }
 
     @Override
