@@ -12,8 +12,8 @@ components:
       required:
         - email
         - password
-        - firstName
-        - lastName
+        - firstname
+        - lastname
       properties:
         email:
           type: string
