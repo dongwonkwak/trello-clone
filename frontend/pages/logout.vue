@@ -1,19 +1,6 @@
 <script setup lang="ts">
-import {useAuthService} from "~/composables/useAuthService";
-
 const { t } = useI18n();
-const authService = useAuthService();
-
-onMounted(async () => {
-  try {
-    console.log('[authorized] logout');
-    await authService.logout();
-  } catch (e) {
-    console.error(e);
-  } finally {
-    navigateTo('/');
-  }
-});
+navigateTo("/")
 
 </script>
 
