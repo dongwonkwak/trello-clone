@@ -15,7 +15,6 @@ public class Board {
     private final String description;
     private final boolean isPublic;
     private final String backgroundColor;
-    private final Account owner;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -26,7 +25,6 @@ public class Board {
                 .description(this.description)
                 .isPublic(this.isPublic)
                 .backgroundColor(this.backgroundColor)
-                .owner(this.owner)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt);
     }

@@ -1,7 +1,12 @@
 src/main/java/com/trelloclone/backend/adapter/in/web/api/AccountApi.java
 src/main/java/com/trelloclone/backend/adapter/in/web/api/ApiUtil.java
 src/main/java/com/trelloclone/backend/adapter/in/web/api/AuthApi.java
+src/main/java/com/trelloclone/backend/adapter/in/web/api/BoardApi.java
 src/main/java/com/trelloclone/backend/adapter/in/web/model/AccountResponse.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/BoardOwner.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/BoardResponse.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/BoardsResponse.java
+src/main/java/com/trelloclone/backend/adapter/in/web/model/CreateBoardRequest.java
 src/main/java/com/trelloclone/backend/adapter/in/web/model/Error.java
 src/main/java/com/trelloclone/backend/adapter/in/web/model/ErrorErrorsInner.java
 src/main/java/com/trelloclone/backend/adapter/in/web/model/ErrorErrorsInnerLinks.java

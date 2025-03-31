@@ -31,4 +31,10 @@ public class ValidationMessageKeys {
     public static final String PASSWORD_DIGIT = "validation.password.require.digit";
     public static final String PASSWORD_SPECIAL = "validation.password.require.special";
     public static final String PASSWORD_PATTERN = "validation.password.pattern";
+
+    // Board validation message keys
+    public static final String TITLE_EMPTY = "validation.board.title.empty";
+    public static final String TITLE_SIZE = "validation.board.title.size";
+    public static final String DESCRIPTION_SIZE = "validation.board.description.size";
+    public static final String BACKGROUND_COLOR_INVALID = "validation.board.background.color.invalid";
 }

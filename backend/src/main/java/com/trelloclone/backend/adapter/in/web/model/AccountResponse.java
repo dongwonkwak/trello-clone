@@ -131,7 +131,7 @@ public class AccountResponse implements Serializable {
    * @return lastname
    */
   @NotNull
-  @Schema(name = "lastname", example = "John Doe", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "lastname", example = "Doe", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("lastname")
   public String getLastname() {
     return lastname;
