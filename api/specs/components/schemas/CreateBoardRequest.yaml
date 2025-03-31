@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    CreateBoardRequest:
+      title: CreateBoardRequest Object
+      description: a structured representation of a board creation request
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: My Board
+        description:
+          type: string
+          example: This is my board
+        isPublic:
+          type: boolean
+          default: false
+          example: false
+        backgroundColor:
+          type: string
+          pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
+          default: '#0079BF'
+          example: '#0079BF'

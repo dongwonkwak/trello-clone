@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    BoardOwner:
+      title: BoardOwner Object
+      description: a structured representation of a board owner
+      type: object
+      required:
+        - id
+        - firstname
+        - lastname
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 6c4a6b54-30c9-11ed-a261-0242ac120002
+        firstname:
+          type: string
+          example: jone
+        lastname:
+          type: string
+          example: Doe

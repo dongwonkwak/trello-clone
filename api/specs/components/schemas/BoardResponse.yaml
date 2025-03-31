@@ -5,15 +5,15 @@ info:
 paths: {}
 components:
   schemas:
-    AccountResponse:
-      title: AccountResponse Object
-      description: a structured representation of an account
+    BoardResponse:
+      title: BoardResponse Object
+      description: a structured representation of a board
       type: object
       required:
         - id
-        - email
-        - firstname
-        - lastname
+        - title
+        - owner
+        - isPublic
         - createdAt
         - updatedAt
       properties:
@@ -21,18 +21,20 @@ components:
           type: string
           format: uuid
           example: 6c4a6b54-30c9-11ed-a261-0242ac120002
-        email:
+        title:
           type: string
-          format: email
-          example: jonedoe@example.com
-        firstname:
+          example: My Board
+        description:
           type: string
-          example: jone
-        lastname:
+          example: This is my board
+        isPublic:
+          type: boolean
+          example: false
+        backgroundColor:
           type: string
-          example: Doe
-        profileImage:
-          $ref: './Link.yaml#/components/schemas/Link'
+          pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
+        owner:
+          $ref: './BoardOwner.yaml#/components/schemas/BoardOwner'
         createdAt:
           type: string
           format: date-time

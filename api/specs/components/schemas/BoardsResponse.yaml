@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    BoardsResponse:
+      title: Boards Response Object
+      description: a structured representation of a list of boards
+      type: object
+      required:
+        - boards
+      properties:
+        boards:
+          type: array
+          items:
+            $ref: './BoardResponse.yaml#/components/schemas/BoardResponse'

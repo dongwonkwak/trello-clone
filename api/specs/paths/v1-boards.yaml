@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths:
+  /v1/boards:
+    get:
+      summary: 내 보드 목록 조회
+      description: 로그인한 사용자의 모든 보드 목록을 조회합니다.
+      operationId: getBoards
+      tags:
+        - Board
+      security:
+        - OAuth2: ['read']
+      responses:
+        '200':
+          description: 보드 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/BoardsResponse.yaml#/components/schemas/BoardsResponse'
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'
+        '500':
+          $ref: '../components/responses/500Response.yaml#/components/responses/500Response'
+      
+    post:
+      summary: 보드 생성
+      description: 보드를 생성합니다.
+      operationId: postBoards
+      tags:
+        - Board
+      security:
+        - OAuth2: ['write']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/CreateBoardRequest.yaml#/components/schemas/CreateBoardRequest'
+      responses:
+        '201':
+          description: 보드 생성 성공
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/BoardResponse.yaml#/components/schemas/BoardResponse'
+        '400':
+          $ref: '../components/responses/400Response.yaml#/components/responses/400Response'
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'
+        '403':
+          $ref: '../components/responses/403Response.yaml#/components/responses/403Response'
+        '422':
+          $ref: '../components/responses/422Response.yaml#/components/responses/422Response'
+        '500':
+          $ref: '../components/responses/500Response.yaml#/components/responses/500Response'

@@ -46,3 +46,6 @@ paths:
 
   /v1/auth/signup:
     $ref: 'paths/v1-auth-signup.yaml#/paths/~1v1~1auth~1signup'
+
+  /v1/boards:
+    $ref: 'paths/v1-boards.yaml#/paths/~1v1~1boards'
