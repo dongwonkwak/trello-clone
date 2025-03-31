@@ -61,8 +61,9 @@ public class BoardService implements
                             .description(command.description())
                             .backgroundColor(command.backgroundColor())
                             .isPublic(command.isPublic())
+                            .ownerId(account.getId())
                             .build();
-                    return boardPort.createBoard(newBoard, account.getId());
+                    return boardPort.createBoard(newBoard);
                 });
     }
 }

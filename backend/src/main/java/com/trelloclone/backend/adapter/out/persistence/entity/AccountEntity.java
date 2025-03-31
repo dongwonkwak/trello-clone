@@ -44,12 +44,6 @@ public class AccountEntity {
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = false;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<BoardEntity> ownedBoards = new ArrayList<>();
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<BoardMemberEntity> boardMemberships = new ArrayList<>();
-
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

@@ -17,6 +17,7 @@ public class BoardPersistenceMapper {
     public static Board toDomain(BoardEntity entity) {
         return Board.builder()
                 .id(Id.of(entity.getId()))
+                .ownerId(entity.getOwnerId() != null ? Id.of(entity.getOwnerId()) : null)
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .backgroundColor(entity.getBackgroundColor())
@@ -31,6 +32,7 @@ public class BoardPersistenceMapper {
         entity.setTitle(board.getTitle());
         entity.setDescription(board.getDescription());
         entity.setPublic(board.isPublic());
+        entity.setOwnerId(board.getOwnerId().id());
         if (board.getBackgroundColor() == null) {
             entity.setBackgroundColor(createBackgroundColor());
         } else {

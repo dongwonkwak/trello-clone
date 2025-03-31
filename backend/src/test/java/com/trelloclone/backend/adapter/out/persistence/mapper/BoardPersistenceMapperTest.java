@@ -36,7 +36,7 @@ class BoardPersistenceMapperTest {
         entity.setDescription("프로젝트 관리를 위한 보드");
         entity.setBackgroundColor("#FF5733");
         entity.setPublic(true);
-        entity.setOwner(owner);
+        entity.setOwnerId(ownerId);
         entity.setCreatedAt(now);
         entity.setUpdatedAt(updated);
 
@@ -59,6 +59,7 @@ class BoardPersistenceMapperTest {
         // Given
         Board board = Board.builder()
                 .id(Id.of(id))
+                .ownerId(Id.of(ownerId))
                 .title("프로젝트 보드")
                 .description("프로젝트 관리를 위한 보드")
                 .backgroundColor("#FF5733")
@@ -83,6 +84,7 @@ class BoardPersistenceMapperTest {
         // Given
         BoardEntity entity = new BoardEntity();
         entity.setId(id);
+        entity.setOwnerId(ownerId);
         entity.setTitle("프로젝트 보드");
         entity.setDescription(null);
         entity.setBackgroundColor(null);

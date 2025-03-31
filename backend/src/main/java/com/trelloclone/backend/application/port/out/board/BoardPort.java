@@ -14,10 +14,9 @@ public interface BoardPort {
      * 보드와 보드 멤버(소유자)를 함께 생성합니다.
      *
      * @param board 생성할 보드
-     * @param ownerId 보드 소유자 ID (account id)
      * @return 생성된 보드
      */
-    Either<Failure, Board> createBoard(Board board, Id ownerId);
+    Either<Failure, Board> createBoard(Board board);
 
     /**
      * 기존 보드를 업데이트합니다.

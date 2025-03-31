@@ -45,6 +45,7 @@ class BoardPersistenceAdapterTest {
     private final BoardEntity boardEntity = new BoardEntity();
     private final Board board = Board.builder()
             .id(boardId)
+            .ownerId(ownerId)
             .title("테스트 보드")
             .description("테스트 설명")
             .build();
@@ -56,7 +57,7 @@ class BoardPersistenceAdapterTest {
         boardEntity.setId(testBoardId);
         boardEntity.setTitle("테스트 보드");
         boardEntity.setDescription("테스트 설명");
-        boardEntity.setOwner(ownerEntity);
+        boardEntity.setOwnerId(testOwnerId);
         boardEntity.setCreatedAt(LocalDateTime.now());
         boardEntity.setUpdatedAt(LocalDateTime.now());
     }
@@ -72,7 +73,7 @@ class BoardPersistenceAdapterTest {
             when(boardRepository.save(any(BoardEntity.class))).thenReturn(boardEntity);
 
             // When
-            Either<Failure, Board> result = adapter.createBoard(board, ownerId);
+            Either<Failure, Board> result = adapter.createBoard(board);
 
             // Then
             assertThat(result.isRight()).isTrue();
@@ -87,7 +88,7 @@ class BoardPersistenceAdapterTest {
             when(boardRepository.save(any(BoardEntity.class))).thenThrow(new DataAccessException("Database error") {});
 
             // When
-            Either<Failure, Board> result = adapter.createBoard(board, ownerId);
+            Either<Failure, Board> result = adapter.createBoard(board);
 
             // Then
             assertThat(result.isLeft()).isTrue();
@@ -139,7 +140,7 @@ class BoardPersistenceAdapterTest {
         void shouldGetBoardsByAccountIdSuccessfully() {
             // Given
             List<BoardEntity> boardEntities = List.of(boardEntity);
-            when(boardRepository.findAllBoardsByAccount(any(AccountEntity.class))).thenReturn(boardEntities);
+            when(boardRepository.findAllBoardsByAccount(any(UUID.class))).thenReturn(boardEntities);
 
             // When
             Either<Failure, List<Board>> result = adapter.getBoardsByAccountId(ownerId);
@@ -154,7 +155,7 @@ class BoardPersistenceAdapterTest {
         @DisplayName("조회 실패 시 Failure 반환")
         void shouldReturnFailureWhenGetBoardsFails() {
             // Given
-            when(boardRepository.findAllBoardsByAccount(ownerEntity))
+            when(boardRepository.findAllBoardsByAccount(ownerId.id()))
                     .thenThrow(new RuntimeException("Database error"));
 
             // When

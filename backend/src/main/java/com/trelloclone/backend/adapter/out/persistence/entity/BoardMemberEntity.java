@@ -22,9 +22,8 @@ public class BoardMemberEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
-    private AccountEntity account;
+    @Column(name = "account_id")
+    private UUID accountId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)

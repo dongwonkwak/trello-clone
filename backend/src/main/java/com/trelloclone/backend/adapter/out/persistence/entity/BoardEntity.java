@@ -18,6 +18,9 @@ public class BoardEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "owner_id", nullable = false)
+    private UUID ownerId;
+
     @Column(nullable = false)
     private String title;
 
@@ -29,10 +32,6 @@ public class BoardEntity {
 
     @Column(nullable = false)
     private String backgroundColor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
-    private AccountEntity owner;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

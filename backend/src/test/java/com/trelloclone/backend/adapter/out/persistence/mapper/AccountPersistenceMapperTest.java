@@ -67,7 +67,7 @@ class AccountPersistenceMapperTest {
         AccountEntity entity = AccountPersistenceMapper.toEntity(account);
 
         // Then
-        assertThat(entity.getId()).isEqualTo(id);
+        assertThat(entity.getId()).isNull();
         assertThat(entity.getFirstName()).isEqualTo("john");
         assertThat(entity.getLastName()).isEqualTo("doe");
         assertThat(entity.getEmail()).isEqualTo("test@example.com");

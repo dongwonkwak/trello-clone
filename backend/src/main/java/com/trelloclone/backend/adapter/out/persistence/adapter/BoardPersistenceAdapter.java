@@ -27,7 +27,7 @@ public class BoardPersistenceAdapter implements BoardPort {
     private final BoardMemberRepository boardMemberRepository;
 
     @Override
-    public Either<Failure, Board> createBoard(Board board, Id ownerId) {
+    public Either<Failure, Board> createBoard(Board board) {
         return Try.of(() -> {
                     // 1. 보드 엔티티 생성 및 저장
                     BoardEntity boardEntity = BoardPersistenceMapper.toEntity(board);
@@ -36,11 +36,7 @@ public class BoardPersistenceAdapter implements BoardPort {
                     // 2. 보드 멤버 엔티티 생성 및 저장 (보드 생성자를 ADMIN 권한으로)
                     BoardMemberEntity memberEntity = new BoardMemberEntity();
                     memberEntity.setBoard(savedBoardEntity);
-
-                    // AccountEntity를 직접 조회하는 대신 ID 참조만 설정
-                    AccountEntity ownerEntity = new AccountEntity();
-                    ownerEntity.setId(ownerId.id());
-                    memberEntity.setAccount(ownerEntity);
+                    memberEntity.setAccountId(board.getOwnerId().id());
 
                     memberEntity.setRole(BoardRole.ADMIN); // 보드 생성자는 ADMIN 권한
                     boardMemberRepository.save(memberEntity);
@@ -97,12 +93,8 @@ public class BoardPersistenceAdapter implements BoardPort {
     @Override
     public Either<Failure, List<Board>> getBoardsByAccountId(Id accountId) {
         return Try.of(() -> {
-            var accountEntity = new AccountEntity();
-            accountEntity.setId(accountId.id());
-
             // find account entity by id
-            var boardEntities = boardRepository.findAllBoardsByAccount(
-                    accountEntity);
+            var boardEntities = boardRepository.findAllBoardsByAccount(accountId.id());
 
             return Either.<Failure, List<Board>>right(
                     boardEntities.stream()

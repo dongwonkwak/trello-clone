@@ -7,6 +7,7 @@ import com.trelloclone.backend.adapter.out.persistence.repository.BoardMemberRep
 import com.trelloclone.backend.adapter.out.persistence.repository.BoardRepository;
 import com.trelloclone.backend.domain.model.Account;
 import com.trelloclone.backend.domain.model.Board;
+import com.trelloclone.backend.domain.model.Id;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -49,6 +50,7 @@ class BoardPersistenceAdapterIntegrationTest {
     void prepareTest() {
         // 테스트용 계정 생성 및 저장
         testAccount = Account.builder()
+                .id(Id.newId())
                 .firstName("John")
                 .lastName("Doe")
                 .email("board-test@example.com")
@@ -60,6 +62,7 @@ class BoardPersistenceAdapterIntegrationTest {
         testBoard = Board.builder()
                 .title("Test Board")
                 .description("Board for testing")
+                .ownerId(testAccount.getId())
                 .build();
     }
 
@@ -73,7 +76,7 @@ class BoardPersistenceAdapterIntegrationTest {
     @DisplayName("보드를 생성하고 ID로 조회할 수 있어야 한다")
     void shouldCreateAndRetrieveBoardById() {
         // 보드 생성
-        var createdResult = adapter.createBoard(testBoard, testAccount.getId());
+        var createdResult = adapter.createBoard(testBoard);
 
         // 생성 성공 확인
         assertThat(createdResult.isRight()).isTrue();
@@ -86,4 +89,49 @@ class BoardPersistenceAdapterIntegrationTest {
         assertThat(retrievedResult.isRight()).isTrue();
         assertThat(retrievedResult.get().getTitle()).isEqualTo("Test Board");
     }
+
+    @Test
+    @DisplayName("사용자가 소유한 보드 목록을 조회할 수 있어야 한다")
+    void shouldFindBoardsByAccount() {
+        // 여러 보드 생성
+        adapter.createBoard(testBoard);
+
+        var secondBoard = Board.builder()
+                .title("Second Board")
+                .ownerId(testBoard.getOwnerId())
+                .description("Another board")
+                .build();
+        adapter.createBoard(secondBoard);
+
+        // 사용자 계정으로 보드 목록 조회
+        var boardsResult = adapter.getBoardsByAccountId(testAccount.getId());
+
+        // 조회 결과 확인
+        assertThat(boardsResult.isRight()).isTrue();
+        assertThat(boardsResult.get()).hasSize(2);
+        assertThat(boardsResult.get()).extracting("title")
+                .containsExactlyInAnyOrder("Test Board", "Second Board");
+    }
+
+    /*@Test
+    @DisplayName("보드 멤버를 추가하고 조회할 수 있어야 한다")
+    void shouldAddAndRetrieveBoardMembers() {
+        // 보드 생성
+        var createdResult = adapter.createBoard(testBoard);
+        var boardId = createdResult.get().getId();
+
+        // 보드 멤버 추가
+        var memberResult = adapter.addBoardMember(boardId, testAccount.getId(), "MEMBER");
+
+        // 추가 성공 확인
+        assertThat(memberResult.isRight()).isTrue();
+
+        // 보드 멤버 조회
+        var membersResult = adapter.findBoardMembers(boardId);
+
+        // 조회 결과 확인
+        assertThat(membersResult.isRight()).isTrue();
+        assertThat(membersResult.get()).hasSize(1);
+        assertThat(membersResult.get().get(0).getAccountId()).isEqualTo(testAccount.getId());
+    }*/
 }

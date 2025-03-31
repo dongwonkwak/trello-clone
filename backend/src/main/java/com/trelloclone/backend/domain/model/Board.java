@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Board {
 
     private final Id id;
+    private final Id ownerId;
     private final String title;
     private final String description;
     private final boolean isPublic;
@@ -21,6 +22,7 @@ public class Board {
     public BoardBuilder toBuilder() {
         return new BoardBuilder()
                 .id(this.id)
+                .ownerId(this.ownerId)
                 .title(this.title)
                 .description(this.description)
                 .isPublic(this.isPublic)
