@@ -46,8 +46,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         var userDetails = new AccountUserDetails(result);
 
         return new UsernamePasswordAuthenticationToken(
-                result,
                 userDetails,
+                password,
                 userDetails.getAuthorities());
     }
 

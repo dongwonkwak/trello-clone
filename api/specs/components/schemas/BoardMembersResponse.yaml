@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    BoardMembersResponse:
+      title: Board Members Response Object
+      description: a structured representation of a board member
+      type: object
+      required:
+        - data
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: './BoardMember.yaml#/components/schemas/BoardMember'

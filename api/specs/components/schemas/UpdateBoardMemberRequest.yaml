@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    UpdateBoardMemberRequest:
+      title: Update Board Member Request Object
+      description: a structured representation of a request to update a board member
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum: [ADMIN, MEMBER, VIEWER]
+          description: 멤버 권한
+          example: MEMBER

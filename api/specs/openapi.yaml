@@ -41,7 +41,7 @@ components:
 security: []
 
 paths:
-  /v1/account/me:
+  /v1/accounts/me:
     $ref: 'paths/v1-accounts-me.yaml#/paths/~1v1~1accounts~1me'
 
   /v1/auth/signup:
@@ -49,3 +49,9 @@ paths:
 
   /v1/boards:
     $ref: 'paths/v1-boards.yaml#/paths/~1v1~1boards'
+
+  /v1/boards/{boardId}/members:
+    $ref: 'paths/v1-boards-board-id-members.yaml#/paths/~1v1~1boards~1{boardId}~1members'
+
+  /v1/boards/{boardId}/members/{accountId}:
+    $ref: 'paths/v1-boards-board-id-members-account-id.yaml#/paths/~1v1~1boards~1{boardId}~1members~1{accountId}'

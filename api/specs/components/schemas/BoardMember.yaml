@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    BoardMember:
+      title: Board Member Object
+      description: a structured representation of a board member
+      type: object
+      required:
+        - account
+        - role
+        - joinedAt
+      properties:
+        account:
+          $ref: './AccountResponse.yaml#/components/schemas/AccountResponse'
+        role:
+          type: string
+          enum: [ADMIN, MEMBER, VIEWER]
+          description: 멤버 권한
+        joinedAt:
+          type: string
+          format: date-time
+          description: 멤버 가입일
+          example: 2023-10-01T12:00:00Z

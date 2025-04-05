@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths:
+  /v1/boards/{boardId}/members:
+    parameters:
+      - $ref: '../components/parameters/boardId.yaml#/components/parameters/boardId'
+    get:
+      summary: 보드 멤버 목록 조회
+      description: 보드에 속한 모든 멤버 목록을 조회합니다.
+      operationId: getBoardMembers
+      tags:
+        - Board
+      security:
+        - OAuth2: ['read']
+      
+      responses:
+        '200':
+          description: 보드 멤버 목록 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/BoardMembersResponse.yaml#/components/schemas/BoardMembersResponse'
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'
+        '403':
+          $ref: '../components/responses/403Response.yaml#/components/responses/403Response'
+        '404':
+          $ref: '../components/responses/404Response.yaml#/components/responses/404Response'
+        '500':
+          $ref: '../components/responses/500Response.yaml#/components/responses/500Response'
+    post:
+      summary: 보드 멤버 초대
+      description: 보드에 멤버를 초대합니다.
+      operationId: postBoardMembers
+      tags:
+        - Board
+      security:
+        - OAuth2: ['write']
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/AddBoardMembersRequest.yaml#/components/schemas/AddBoardMembersRequest'
+      responses:
+        '201':
+          description: 보드 멤버 초대 성공
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas/BoardMembersResponse.yaml#/components/schemas/BoardMembersResponse'
+        '400':
+          $ref: '../components/responses/400Response.yaml#/components/responses/400Response'
+        '401':
+          $ref: '../components/responses/401Response.yaml#/components/responses/401Response'
+        '403':
+          $ref: '../components/responses/403Response.yaml#/components/responses/403Response'
+        '404':
+          $ref: '../components/responses/404Response.yaml#/components/responses/404Response'
+        '409':
+          $ref: '../components/responses/409Response.yaml#/components/responses/409Response'
+        '500':
+          $ref: '../components/responses/500Response.yaml#/components/responses/500Response'
+      

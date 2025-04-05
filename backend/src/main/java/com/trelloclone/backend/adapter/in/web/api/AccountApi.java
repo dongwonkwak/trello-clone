@@ -40,7 +40,7 @@ public interface AccountApi {
     }
 
     /**
-     * GET /v1/account/me : 내 정보 조회
+     * GET /v1/accounts/me : 내 정보 조회
      * 내 정보를 조회합니다.
      *
      * @return OK (status code 200)
@@ -69,7 +69,7 @@ public interface AccountApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/v1/account/me",
+        value = "/v1/accounts/me",
         produces = { "application/json" }
     )
     
@@ -82,7 +82,7 @@ public interface AccountApi {
 
 
     /**
-     * PUT /v1/account/me : 내 정보 수정
+     * PUT /v1/accounts/me : 내 정보 수정
      * 내 정보를 수정합니다.
      *
      * @param putMeRequest  (required)
@@ -112,7 +112,7 @@ public interface AccountApi {
     )
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/v1/account/me",
+        value = "/v1/accounts/me",
         produces = { "application/json" },
         consumes = { "application/json" }
     )

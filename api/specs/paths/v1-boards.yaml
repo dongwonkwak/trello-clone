@@ -27,7 +27,7 @@ paths:
     post:
       summary: 보드 생성
       description: 보드를 생성합니다.
-      operationId: postBoards
+      operationId: createBoard
       tags:
         - Board
       security:

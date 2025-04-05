@@ -5,10 +5,15 @@
  */
 package com.trelloclone.backend.adapter.in.web.api;
 
+import com.trelloclone.backend.adapter.in.web.model.AddBoardMembersRequest;
+import com.trelloclone.backend.adapter.in.web.model.BoardMember;
+import com.trelloclone.backend.adapter.in.web.model.BoardMembersResponse;
 import com.trelloclone.backend.adapter.in.web.model.BoardResponse;
 import com.trelloclone.backend.adapter.in.web.model.BoardsResponse;
 import com.trelloclone.backend.adapter.in.web.model.CreateBoardRequest;
 import com.trelloclone.backend.adapter.in.web.model.Error;
+import java.util.UUID;
+import com.trelloclone.backend.adapter.in.web.model.UpdateBoardMemberRequest;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,6 +44,217 @@ public interface BoardApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    /**
+     * POST /v1/boards : 보드 생성
+     * 보드를 생성합니다.
+     *
+     * @param createBoardRequest  (required)
+     * @return 보드 생성 성공 (status code 201)
+     *         or Bad Request (status code 400)
+     *         or Not authorized (status code 401)
+     *         or Forbidden (status code 403)
+     *         or Unprocessable Entity (status code 422)
+     *         or 500 Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "createBoard",
+        summary = "보드 생성",
+        description = "보드를 생성합니다.",
+        tags = { "Board" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "보드 생성 성공", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Not authorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "OAuth2", scopes={ "write" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/v1/boards",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    default ResponseEntity<?> createBoard(
+        @Parameter(name = "CreateBoardRequest", description = "", required = true) @RequestBody CreateBoardRequest createBoardRequest
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * DELETE /v1/boards/{boardId}/members/{accountId} : 보드 멤버 삭제
+     * 보드에서 특정 멤버를 삭제합니다.
+     *
+     * @param boardId The ID of the board (required)
+     * @param accountId The ID of the account (required)
+     * @return 보드 멤버 삭제 성공 (status code 204)
+     *         or Not authorized (status code 401)
+     *         or Forbidden (status code 403)
+     *         or Not Found (status code 404)
+     *         or 500 Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "deleteBoardMember",
+        summary = "보드 멤버 삭제",
+        description = "보드에서 특정 멤버를 삭제합니다.",
+        tags = { "Board" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "보드 멤버 삭제 성공"),
+            @ApiResponse(responseCode = "401", description = "Not authorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "OAuth2", scopes={ "write" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/v1/boards/{boardId}/members/{accountId}",
+        produces = { "application/json" }
+    )
+    
+    default ResponseEntity<?> deleteBoardMember(
+        @Parameter(name = "boardId", description = "The ID of the board", required = true, in = ParameterIn.PATH) @PathVariable("boardId") UUID boardId,
+        @Parameter(name = "accountId", description = "The ID of the account", required = true, in = ParameterIn.PATH) @PathVariable("accountId") UUID accountId
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /v1/boards/{boardId}/members/{accountId} : 보드 멤버 조회
+     * 보드에 속한 특정 멤버를 조회합니다.
+     *
+     * @param boardId The ID of the board (required)
+     * @param accountId The ID of the account (required)
+     * @return 보드 멤버 조회 성공 (status code 200)
+     *         or Not authorized (status code 401)
+     *         or Forbidden (status code 403)
+     *         or Not Found (status code 404)
+     *         or 500 Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "getBoardMember",
+        summary = "보드 멤버 조회",
+        description = "보드에 속한 특정 멤버를 조회합니다.",
+        tags = { "Board" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "보드 멤버 조회 성공", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardMember.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Not authorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "OAuth2", scopes={ "read" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/boards/{boardId}/members/{accountId}",
+        produces = { "application/json" }
+    )
+    
+    default ResponseEntity<?> getBoardMember(
+        @Parameter(name = "boardId", description = "The ID of the board", required = true, in = ParameterIn.PATH) @PathVariable("boardId") UUID boardId,
+        @Parameter(name = "accountId", description = "The ID of the account", required = true, in = ParameterIn.PATH) @PathVariable("accountId") UUID accountId
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /v1/boards/{boardId}/members : 보드 멤버 목록 조회
+     * 보드에 속한 모든 멤버 목록을 조회합니다.
+     *
+     * @param boardId The ID of the board (required)
+     * @return 보드 멤버 목록 조회 성공 (status code 200)
+     *         or Not authorized (status code 401)
+     *         or Forbidden (status code 403)
+     *         or Not Found (status code 404)
+     *         or 500 Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "getBoardMembers",
+        summary = "보드 멤버 목록 조회",
+        description = "보드에 속한 모든 멤버 목록을 조회합니다.",
+        tags = { "Board" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "보드 멤버 목록 조회 성공", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardMembersResponse.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Not authorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "OAuth2", scopes={ "read" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/v1/boards/{boardId}/members",
+        produces = { "application/json" }
+    )
+    
+    default ResponseEntity<?> getBoardMembers(
+        @Parameter(name = "boardId", description = "The ID of the board", required = true, in = ParameterIn.PATH) @PathVariable("boardId") UUID boardId
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     /**
      * GET /v1/boards : 내 보드 목록 조회
@@ -83,25 +299,27 @@ public interface BoardApi {
 
 
     /**
-     * POST /v1/boards : 보드 생성
-     * 보드를 생성합니다.
+     * POST /v1/boards/{boardId}/members : 보드 멤버 초대
+     * 보드에 멤버를 초대합니다.
      *
-     * @param createBoardRequest  (required)
-     * @return 보드 생성 성공 (status code 201)
+     * @param boardId The ID of the board (required)
+     * @param addBoardMembersRequest  (required)
+     * @return 보드 멤버 초대 성공 (status code 201)
      *         or Bad Request (status code 400)
      *         or Not authorized (status code 401)
      *         or Forbidden (status code 403)
-     *         or Unprocessable Entity (status code 422)
+     *         or Not Found (status code 404)
+     *         or Conflict (status code 409)
      *         or 500 Internal Server Error (status code 500)
      */
     @Operation(
-        operationId = "postBoards",
-        summary = "보드 생성",
-        description = "보드를 생성합니다.",
+        operationId = "postBoardMembers",
+        summary = "보드 멤버 초대",
+        description = "보드에 멤버를 초대합니다.",
         tags = { "Board" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "보드 생성 성공", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardResponse.class))
+            @ApiResponse(responseCode = "201", description = "보드 멤버 초대 성공", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardMembersResponse.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
@@ -112,7 +330,10 @@ public interface BoardApi {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = {
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
             @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
@@ -125,13 +346,74 @@ public interface BoardApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v1/boards",
+        value = "/v1/boards/{boardId}/members",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
     
-    default ResponseEntity<?> postBoards(
-        @Parameter(name = "CreateBoardRequest", description = "", required = true) @RequestBody CreateBoardRequest createBoardRequest
+    default ResponseEntity<?> postBoardMembers(
+        @Parameter(name = "boardId", description = "The ID of the board", required = true, in = ParameterIn.PATH) @PathVariable("boardId") UUID boardId,
+        @Parameter(name = "AddBoardMembersRequest", description = "", required = true) @RequestBody AddBoardMembersRequest addBoardMembersRequest
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /v1/boards/{boardId}/members/{accountId} : 보드 멤버 정보 수정
+     * 보드에 속한 특정 멤버의 정보를 수정합니다.
+     *
+     * @param boardId The ID of the board (required)
+     * @param accountId The ID of the account (required)
+     * @param updateBoardMemberRequest  (required)
+     * @return 보드 멤버 정보 수정 성공 (status code 200)
+     *         or Bad Request (status code 400)
+     *         or Not authorized (status code 401)
+     *         or Forbidden (status code 403)
+     *         or Not Found (status code 404)
+     *         or 500 Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "putBoardMember",
+        summary = "보드 멤버 정보 수정",
+        description = "보드에 속한 특정 멤버의 정보를 수정합니다.",
+        tags = { "Board" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "보드 멤버 정보 수정 성공", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = BoardMember.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Not authorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "500 Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "OAuth2", scopes={ "write" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/v1/boards/{boardId}/members/{accountId}",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    default ResponseEntity<?> putBoardMember(
+        @Parameter(name = "boardId", description = "The ID of the board", required = true, in = ParameterIn.PATH) @PathVariable("boardId") UUID boardId,
+        @Parameter(name = "accountId", description = "The ID of the account", required = true, in = ParameterIn.PATH) @PathVariable("accountId") UUID accountId,
+        @Parameter(name = "UpdateBoardMemberRequest", description = "", required = true) @RequestBody UpdateBoardMemberRequest updateBoardMemberRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

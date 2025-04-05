@@ -33,7 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AccountControllerTest {
+class AccountsControllerTest {
 
     @Mock
     private GetAccountUseCase getAccountUseCase;
@@ -45,7 +45,7 @@ class AccountControllerTest {
     private ApiFailureHandler apiFailureHandler;
 
     @InjectMocks
-    private AccountController accountController;
+    private AccountsController accountController;
 
     private final String testEmail = "test@example.com";
     private final String testFirstname = "john";

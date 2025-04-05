@@ -12,16 +12,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class AccountController implements AccountApi {
+public class AccountsController implements AccountApi {
 
     private final GetAccountUseCase getAccountUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
     private final ApiFailureHandler apiFailureHandler;
 
+    @GetMapping("/v1/accounts/me")
     @Override
     public ResponseEntity<?> getMe() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -33,6 +36,7 @@ public class AccountController implements AccountApi {
                         account -> ResponseEntity.ok(AccountMapper.toResponse(account)));
     }
 
+    @PutMapping("/v1/accounts/me")
     @Override
     public ResponseEntity<?> putMe(PutMeRequest putMeRequest) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();

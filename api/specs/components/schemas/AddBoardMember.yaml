@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    AddBoardMember:
+      title: Add Board Member Object
+      description: a structured representation of a request to add a member to a board
+      type: object
+      required:
+        - accountId
+        - role
+      properties:          
+        accountId:
+          type: string
+          description: 멤버의 계정 ID
+          format: uuid
+          example: 6c4a6b54-30c9-11ed-a261-0242ac120002
+        role:
+          type: string
+          enum: [ADMIN, MEMBER, VIEWER]
+          description: 멤버 권한
+          example: MEMBER

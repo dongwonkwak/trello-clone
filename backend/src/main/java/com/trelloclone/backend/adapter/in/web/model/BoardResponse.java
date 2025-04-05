@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.trelloclone.backend.adapter.in.web.model.BoardOwner;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,7 +38,7 @@ public class BoardResponse implements Serializable {
 
   private @Nullable String backgroundColor;
 
-  private BoardOwner owner;
+  private @Nullable UUID ownerId;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime createdAt;
@@ -54,11 +53,10 @@ public class BoardResponse implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public BoardResponse(UUID id, String title, Boolean isPublic, BoardOwner owner, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public BoardResponse(UUID id, String title, Boolean isPublic, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.title = title;
     this.isPublic = isPublic;
-    this.owner = owner;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -163,24 +161,24 @@ public class BoardResponse implements Serializable {
     this.backgroundColor = backgroundColor;
   }
 
-  public BoardResponse owner(BoardOwner owner) {
-    this.owner = owner;
+  public BoardResponse ownerId(UUID ownerId) {
+    this.ownerId = ownerId;
     return this;
   }
 
   /**
-   * Get owner
-   * @return owner
+   * Get ownerId
+   * @return ownerId
    */
-  @NotNull
-  @Schema(name = "owner", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("owner")
-  public BoardOwner getOwner() {
-    return owner;
+  
+  @Schema(name = "owner_id", example = "6c4a6b54-30c9-11ed-a261-0242ac121004", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("owner_id")
+  public UUID getOwnerId() {
+    return ownerId;
   }
 
-  public void setOwner(BoardOwner owner) {
-    this.owner = owner;
+  public void setOwnerId(UUID ownerId) {
+    this.ownerId = ownerId;
   }
 
   public BoardResponse createdAt(LocalDateTime createdAt) {
@@ -237,14 +235,14 @@ public class BoardResponse implements Serializable {
         Objects.equals(this.description, boardResponse.description) &&
         Objects.equals(this.isPublic, boardResponse.isPublic) &&
         Objects.equals(this.backgroundColor, boardResponse.backgroundColor) &&
-        Objects.equals(this.owner, boardResponse.owner) &&
+        Objects.equals(this.ownerId, boardResponse.ownerId) &&
         Objects.equals(this.createdAt, boardResponse.createdAt) &&
         Objects.equals(this.updatedAt, boardResponse.updatedAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, isPublic, backgroundColor, owner, createdAt, updatedAt);
+    return Objects.hash(id, title, description, isPublic, backgroundColor, ownerId, createdAt, updatedAt);
   }
 
   @Override
@@ -256,7 +254,7 @@ public class BoardResponse implements Serializable {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    isPublic: ").append(toIndentedString(isPublic)).append("\n");
     sb.append("    backgroundColor: ").append(toIndentedString(backgroundColor)).append("\n");
-    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
+    sb.append("    ownerId: ").append(toIndentedString(ownerId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");

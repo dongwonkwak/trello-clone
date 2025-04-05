@@ -10,7 +10,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
 
 public interface CreateBoardUseCase {
 
-    Either<Failure, Board> createBoard(CreateBoardCommand command);
+    Either<Failure, Board> createBoard(CreateBoardCommand command, String email);
 
 
     @Builder

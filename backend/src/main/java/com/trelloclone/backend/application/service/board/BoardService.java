@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +31,13 @@ public class BoardService implements
     private final AccountPort accountPort;
 
     @Override
-    public Either<Failure, Collection<Board>> getBoards(Id accountId) {
-        // Get current user
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
+    public Either<Failure, List<Board>> getBoards(String email) {
         return accountPort.findAccountByEmail(email)
                 .flatMap(account -> boardPort.getBoardsByAccountId(account.getId()));
     }
 
     @Override
-    public Either<Failure, Board> createBoard(CreateBoardCommand command) {
+    public Either<Failure, Board> createBoard(CreateBoardCommand command, String email) {
         var validation = boardValidator.validate(command);
         if (validation.isInvalid()) {
             log.error("Validation failed: {}", validation.getError());
@@ -49,10 +45,6 @@ public class BoardService implements
                     ValidationMessageKeys.VALIDATION_ERROR,
                     validation.getError().toJavaList()));
         }
-
-        // Get current user
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
 
         return accountPort.findAccountByEmail(email)
                 .flatMap(account -> {

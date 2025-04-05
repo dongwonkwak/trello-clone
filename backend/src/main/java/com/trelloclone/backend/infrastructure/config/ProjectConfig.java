@@ -1,6 +1,7 @@
 package com.trelloclone.backend.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class ProjectConfig {
     public ObjectMapper objectMapper() {
         var mapper = new ObjectMapper();
         mapper.registerModule(new JsonNullableModule());
+        mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
 }

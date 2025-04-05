@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Trello Clone API
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    AddBoardMembersRequest:
+      title: Add Board Members Request Object
+      description: a structured representation of a request to add a member to a board
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: './AddBoardMember.yaml#/components/schemas/AddBoardMember'

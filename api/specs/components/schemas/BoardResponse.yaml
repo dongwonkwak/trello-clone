@@ -33,8 +33,10 @@ components:
         backgroundColor:
           type: string
           pattern: '^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
-        owner:
-          $ref: './BoardOwner.yaml#/components/schemas/BoardOwner'
+        owner_id:
+          type: string
+          format: uuid
+          example: 6c4a6b54-30c9-11ed-a261-0242ac121004
         createdAt:
           type: string
           format: date-time
